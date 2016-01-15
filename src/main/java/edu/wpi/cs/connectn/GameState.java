@@ -4,29 +4,36 @@ package edu.wpi.cs.connectn;
 import java.util.Arrays;
 
 public class GameState {
-    private final Player[][] boardState;
-    private Player turn = Player.NONE;
+    private final BoardCell[][] boardState;
+    private Player turn;
+    private final int connectLength;
 
-    public GameState(int w, int h, Player turn) {
-        boardState = new Player[w][h];
+    public GameState(int w, int h, Player turn, int connectLength) {
+        boardState = new BoardCell[w][h];
         this.turn = turn;
+        this.connectLength = connectLength;
 
         for (int i = 0; i < w; i++) {
-            Arrays.fill(boardState[i], Player.NONE);
+            Arrays.fill(boardState[i], BoardCell.NONE);
         }
     }
 
     private GameState(GameState state) {
-        boardState = new Player[state.getWidth()][state.getHeight()];
+        boardState = new BoardCell[state.getWidth()][state.getHeight()];
         this.turn = state.getTurn();
+        this.connectLength = state.connectLength;
 
         for (int i = 0; i < state.getWidth(); i++) {
-           boardState[i] = state.boardState[i].clone();
+            boardState[i] = state.boardState[i].clone();
         }
     }
 
     public void switchTurn() {
-        turn = (turn == Player.MAX) ? Player.MIN : Player.MAX;
+        turn = this.getOpponent(this.turn);
+    }
+
+    private Player getOpponent(Player p) {
+        return (p == Player.MAX) ? Player.MIN : Player.MAX;
     }
 
     public int getWidth() {
@@ -37,20 +44,123 @@ public class GameState {
         return boardState[0].length;
     }
 
-    public Player get(int x, int y) {
+    public BoardCell get(int x, int y) {
         return boardState[x][y];
     }
 
-    public boolean move(Move move) {
-        return false;
+    public void move(Move move) {
+        int col = move.getColumn();
+        int spot = 0;
+
+        for (int i = 0; i < this.getHeight(); i++) {
+            if (boardState[col][i] != BoardCell.NONE) {
+                spot = i - 1;
+                break;
+            }
+        }
+
+        boardState[col][spot] = this.turn.getBoardCell();
     }
 
     public boolean isMoveValid(Move move) {
         return false;
     }
 
+    public GameWinner getWinner() {
+        Player otherPlayer = this.getOpponent(this.turn);
+        boolean player = false;
+        boolean other = false;
+
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                if (this.checkVertical(i, j, this.turn) || this.checkHorizontal(i, j, this.turn) || this.checkDiagonals(i, j, this.turn)) {
+                    player = true;
+                }
+
+                if (this.checkVertical(i, j, o) || this.checkHorizontal(i, j, o) || this.checkDiagonals(i, j, o)) {
+                    other = true;
+                }
+            }
+        }
+
+        if (player && other) {
+            return GameWinner.TIE;
+        }
+
+        if (player) {
+            return this.turn.getGameWinner();
+        }
+
+        if (other) {
+            return otherPlayer.getGameWinner();
+        }
+
+        return GameWinner.NONE;
+    }
+
+    private boolean checkVertical(int x, int y, Player p) {
+        int consecutive = 0;
+        for (int k = 0; k < this.getHeight(); k++) {
+            if (this.boardState[x + k][y] == p.getBoardCell()) {
+                consecutive++;
+            }
+        }
+
+        return (consecutive >= this.connectLength);
+    }
+
+    private boolean checkHorizontal(int x, int y, Player p) {
+        int consecutive = 0;
+        for (int k = 0; k < this.getWidth(); k++) {
+            if (this.boardState[x][y + k] == p.getBoardCell()) {
+                consecutive++;
+            }
+        }
+
+        return (consecutive >= this.connectLength);
+    }
+
+    private boolean checkDiagonals(int x, int y, Player p) {
+        int consecutive = 0;
+        int smallerDimension = (this.getHeight() < this.getWidth()) ? this.getHeight() : this.getWidth();
+        for (int k = 0; k < smallerDimension; k++) {
+            if (this.boardState[x + k][y + k] == p.getBoardCell()) {
+                consecutive++;
+            }
+        }
+
+        if (consecutive >= this.connectLength) {
+            return true;
+        }
+
+        consecutive = 0;
+        for (int k = 0; k < smallerDimension; k++) {
+            if (this.boardState[x - k][y - k] == p.getBoardCell()) {
+                consecutive++;
+            }
+        }
+
+        return consecutive >= this.connectLength);
+    }
+
     public Player getTurn() {
         return turn;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("Turn: " + this.turn);
+        builder.append("Connect Length: " + this.connectLength);
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+                builder.append(boardState[i][j] + " ");
+            }
+            builder.append("\n");
+        }
+        builder.append("\n");
+        return builder.toString();
     }
 
     @Override
