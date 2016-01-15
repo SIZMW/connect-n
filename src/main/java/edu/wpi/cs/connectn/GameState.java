@@ -151,11 +151,11 @@ public class GameState {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("Turn: " + this.turn);
-        builder.append("Connect Length: " + this.connectLength);
+        builder.append("Turn: ").append(this.turn);
+        builder.append("Connect Length: ").append(this.connectLength);
         for (int i = 0; i < this.getWidth(); i++) {
             for (int j = 0; j < this.getHeight(); j++) {
-                builder.append(boardState[i][j] + " ");
+                builder.append(boardState[i][j]).append(" ");
             }
             builder.append("\n");
         }
