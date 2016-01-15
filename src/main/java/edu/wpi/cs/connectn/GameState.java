@@ -4,9 +4,10 @@ package edu.wpi.cs.connectn;
 import java.util.Arrays;
 
 public class GameState {
+
     private final BoardCell[][] boardState;
-    private Player turn;
     private final int connectLength;
+    private Player turn;
 
     public GameState(int w, int h, Player turn, int connectLength) {
         boardState = new BoardCell[w][h];
@@ -59,11 +60,18 @@ public class GameState {
             }
         }
 
-        boardState[col][spot] = this.turn.getBoardCell();
+        boardState[col][spot] = this.turn.getAsBoardCell();
     }
 
     public boolean isMoveValid(Move move) {
-        return false;
+        switch (move.getType()) {
+            case DROP:
+                return boardState[move.getColumn()][0] != BoardCell.NONE;
+            case POP:
+                return boardState[move.getColumn()][getHeight() - 1] == turn.getAsBoardCell();
+            default:
+                return false;
+        }
     }
 
     public GameWinner getWinner() {
@@ -88,11 +96,11 @@ public class GameState {
         }
 
         if (player) {
-            return this.turn.getGameWinner();
+            return this.turn.getAsGameWinner();
         }
 
         if (other) {
-            return otherPlayer.getGameWinner();
+            return otherPlayer.getAsGameWinner();
         }
 
         return GameWinner.NONE;
@@ -101,7 +109,7 @@ public class GameState {
     private boolean checkVertical(int x, int y, Player p) {
         int consecutive = 0;
         for (int k = 0; k < this.getHeight(); k++) {
-            if (this.boardState[x + k][y] == p.getBoardCell()) {
+            if (this.boardState[x + k][y] == p.getAsBoardCell()) {
                 consecutive++;
             }
         }
@@ -112,7 +120,7 @@ public class GameState {
     private boolean checkHorizontal(int x, int y, Player p) {
         int consecutive = 0;
         for (int k = 0; k < this.getWidth(); k++) {
-            if (this.boardState[x][y + k] == p.getBoardCell()) {
+            if (this.boardState[x][y + k] == p.getAsBoardCell()) {
                 consecutive++;
             }
         }
@@ -124,7 +132,7 @@ public class GameState {
         int consecutive = 0;
         int smallerDimension = (this.getHeight() < this.getWidth()) ? this.getHeight() : this.getWidth();
         for (int k = 0; k < smallerDimension; k++) {
-            if (this.boardState[x + k][y + k] == p.getBoardCell()) {
+            if (this.boardState[x + k][y + k] == p.getAsBoardCell()) {
                 consecutive++;
             }
         }
@@ -135,7 +143,7 @@ public class GameState {
 
         consecutive = 0;
         for (int k = 0; k < smallerDimension; k++) {
-            if (this.boardState[x - k][y - k] == p.getBoardCell()) {
+            if (this.boardState[x - k][y - k] == p.getAsBoardCell()) {
                 consecutive++;
             }
         }
