@@ -1,0 +1,10 @@
+xxx*
+xoo+
+
+is worse than
+
+xxx*
+xoo+
+oxo+
+
+if the end of a 3-line (*) has an odd number (if it's your turn) of spaces (+) up to where it would be completed, is very good, otherwise not as good
