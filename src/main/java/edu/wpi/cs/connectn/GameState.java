@@ -77,7 +77,7 @@ public class GameState {
                     player = true;
                 }
 
-                if (this.checkVertical(i, j, o) || this.checkHorizontal(i, j, o) || this.checkDiagonals(i, j, o)) {
+                if (this.checkVertical(i, j, otherPlayer) || this.checkHorizontal(i, j, otherPlayer) || this.checkDiagonals(i, j, otherPlayer)) {
                     other = true;
                 }
             }
@@ -140,7 +140,7 @@ public class GameState {
             }
         }
 
-        return consecutive >= this.connectLength);
+        return (consecutive >= this.connectLength);
     }
 
     public Player getTurn() {
