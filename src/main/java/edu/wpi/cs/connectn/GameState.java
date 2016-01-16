@@ -56,23 +56,30 @@ public class GameState {
     }
 
     public void move(Move move) {
-        int col = move.getColumn();
-        int spot = 0;
-
-        for (int i = 0; i < this.getHeight(); i++) {
-            if (boardState[col][i] != BoardCell.NONE) {
-                spot = i - 1;
+        switch (move.getType()) {
+            case DROP:
+                int spot = 0;
+                for (int i = getHeight() - 1; i >= 0; i--) {
+                    if (boardState[move.getColumn()][i] == BoardCell.NONE) {
+                        spot = i;
+                        break;
+                    }
+                }
+                boardState[move.getColumn()][spot] = this.turn.getAsBoardCell();
                 break;
-            }
+            case POP:
+                System.arraycopy(boardState[move.getColumn()], 0, boardState[move.getColumn()], 1, getHeight() - 1);
+                boardState[move.getColumn()][0] = BoardCell.NONE;
+                break;
         }
 
-        boardState[col][spot] = this.turn.getAsBoardCell();
+        this.turn = getOpponent(this.turn);
     }
 
     public boolean isMoveValid(Move move) {
         switch (move.getType()) {
             case DROP:
-                return boardState[move.getColumn()][0] != BoardCell.NONE;
+                return boardState[move.getColumn()][0] == BoardCell.NONE;
             case POP:
                 return boardState[move.getColumn()][getHeight() - 1] == turn.getAsBoardCell();
             default:
@@ -177,10 +184,10 @@ public class GameState {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("Turn: ").append(this.turn);
-        builder.append("Connect Length: ").append(this.connectLength);
-        for (int i = 0; i < this.getWidth(); i++) {
-            for (int j = 0; j < this.getHeight(); j++) {
+        builder.append("Turn: ").append(this.turn).append(" ");
+        builder.append("Connect Length: ").append(this.connectLength).append("\n");
+        for (int j = 0; j < this.getHeight(); j++) {
+            for (int i = 0; i < this.getWidth(); i++) {
                 builder.append(boardState[i][j]).append(" ");
             }
             builder.append("\n");
