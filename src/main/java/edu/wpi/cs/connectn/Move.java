@@ -16,4 +16,9 @@ public class Move {
     public int getColumn() {
         return column;
     }
+
+    @Override
+    public String toString() {
+        return type + " move in column " + column;
+    }
 }
