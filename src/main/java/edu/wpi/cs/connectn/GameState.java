@@ -19,6 +19,12 @@ public class GameState {
         }
     }
 
+    GameState(Player turn, int connectLength, BoardCell[][] boardState) {
+        this.turn = turn;
+        this.connectLength = connectLength;
+        this.boardState = boardState;
+    }
+
     private GameState(GameState state) {
         boardState = new BoardCell[state.getWidth()][state.getHeight()];
         this.turn = state.getTurn();
