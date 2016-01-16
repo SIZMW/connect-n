@@ -37,7 +37,10 @@ public class GameTreeGenerator {
 
         private void nextMove() {
             do {
-                if (!hasNext()) break;
+                if (currMoveType >= MoveType.values().length || currColumn >= root.getWidth()) {
+                    currMove = null;
+                    break;
+                }
                 currMove = new Move(MoveType.values()[currMoveType], currColumn++);
                 if (currColumn >= root.getWidth()) {
                     currColumn = 0;
@@ -49,7 +52,7 @@ public class GameTreeGenerator {
 
         @Override
         public boolean hasNext() {
-            return currMoveType < MoveType.values().length && currColumn < root.getWidth();
+            return currMove != null;
         }
 
         @Override
