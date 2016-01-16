@@ -1,6 +1,7 @@
 package edu.wpi.cs.connectn;
 
 public class Move {
+
     private final MoveType type;
     private final int column;
 

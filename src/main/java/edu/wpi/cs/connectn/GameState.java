@@ -14,6 +14,8 @@ public class GameState {
         this.turn = turn;
         this.connectLength = connectLength;
 
+        if (w < connectLength && h < connectLength) throw new IllegalArgumentException("Board is too small");
+
         for (int i = 0; i < w; i++) {
             Arrays.fill(boardState[i], BoardCell.NONE);
         }
@@ -23,6 +25,10 @@ public class GameState {
         this.turn = turn;
         this.connectLength = connectLength;
         this.boardState = boardState;
+
+        if (getWidth() < connectLength && getHeight() < connectLength) {
+            throw new IllegalArgumentException("Board is too small");
+        }
     }
 
     private GameState(GameState state) {
@@ -77,6 +83,8 @@ public class GameState {
     }
 
     public boolean isMoveValid(Move move) {
+        if (move.getColumn() < 0 || move.getColumn() >= getWidth()) return false;
+
         switch (move.getType()) {
             case DROP:
                 return boardState[move.getColumn()][0] == BoardCell.NONE;
@@ -94,11 +102,17 @@ public class GameState {
 
         for (int i = 0; i < this.getWidth(); i++) {
             for (int j = 0; j < this.getHeight(); j++) {
-                if (this.checkVertical(i, j, this.turn) || this.checkHorizontal(i, j, this.turn) || this.checkDiagonals(i, j, this.turn)) {
+                if (this.checkDirection(i, j, this.turn, 1, 0) ||
+                        this.checkDirection(i, j, this.turn, 0, 1) ||
+                        this.checkDirection(i, j, this.turn, 1, 1) ||
+                        this.checkDirection(i, j, this.turn, 1, -1)) {
                     player = true;
                 }
 
-                if (this.checkVertical(i, j, otherPlayer) || this.checkHorizontal(i, j, otherPlayer) || this.checkDiagonals(i, j, otherPlayer)) {
+                if (this.checkDirection(i, j, otherPlayer, 1, 0) ||
+                        this.checkDirection(i, j, otherPlayer, 0, 1) ||
+                        this.checkDirection(i, j, otherPlayer, 1, 1) ||
+                        this.checkDirection(i, j, otherPlayer, 1, -1)) {
                     other = true;
                 }
             }
@@ -119,49 +133,14 @@ public class GameState {
         return GameWinner.NONE;
     }
 
-    private boolean checkVertical(int x, int y, Player p) {
+    private boolean checkDirection(int x, int y, Player p, int dx, int dy) {
         int consecutive = 0;
-        for (int k = 0; k < this.getHeight(); k++) {
-            if (this.boardState[x + k][y] == p.getAsBoardCell()) {
-                consecutive++;
-            }
+        while (x >= 0 && x < getWidth() && y >= 0 && y < getHeight() && boardState[x][y] == p.getAsBoardCell()) {
+            consecutive++;
+            x += dx;
+            y += dy;
         }
-
-        return (consecutive >= this.connectLength);
-    }
-
-    private boolean checkHorizontal(int x, int y, Player p) {
-        int consecutive = 0;
-        for (int k = 0; k < this.getWidth(); k++) {
-            if (this.boardState[x][y + k] == p.getAsBoardCell()) {
-                consecutive++;
-            }
-        }
-
-        return (consecutive >= this.connectLength);
-    }
-
-    private boolean checkDiagonals(int x, int y, Player p) {
-        int consecutive = 0;
-        int smallerDimension = (this.getHeight() < this.getWidth()) ? this.getHeight() : this.getWidth();
-        for (int k = 0; k < smallerDimension; k++) {
-            if (this.boardState[x + k][y + k] == p.getAsBoardCell()) {
-                consecutive++;
-            }
-        }
-
-        if (consecutive >= this.connectLength) {
-            return true;
-        }
-
-        consecutive = 0;
-        for (int k = 0; k < smallerDimension; k++) {
-            if (this.boardState[x - k][y - k] == p.getAsBoardCell()) {
-                consecutive++;
-            }
-        }
-
-        return (consecutive >= this.connectLength);
+        return consecutive >= connectLength;
     }
 
     public Player getTurn() {
@@ -188,7 +167,7 @@ public class GameState {
         builder.append("Connect Length: ").append(this.connectLength).append("\n");
         for (int j = 0; j < this.getHeight(); j++) {
             for (int i = 0; i < this.getWidth(); i++) {
-                builder.append(boardState[i][j]).append(" ");
+                builder.append(boardState[i][j].getSymbol()).append(" ");
             }
             builder.append("\n");
         }

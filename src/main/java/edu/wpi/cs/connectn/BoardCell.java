@@ -18,9 +18,4 @@ public enum BoardCell {
     public GameWinner getAsGameWinner() {
         return GameWinner.valueOf(this.toString());
     }
-
-    @Override
-    public String toString() {
-        return getSymbol();
-    }
 }
