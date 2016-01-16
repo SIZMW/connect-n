@@ -16,8 +16,8 @@ public class GameTreeGenerator {
      * @param root the state to generate new states off of
      * @return an {@link Iterator} of all legal resulting {@link GameState}s from the root
      */
-    public Iterator<GameState> generateChildren(GameState root) {
-        return new GameStateChildrenIterator(root);
+    public Iterable<GameState> generateChildren(GameState root) {
+        return () -> new GameStateChildrenIterator(root);
     }
 
     private static class GameStateChildrenIterator implements Iterator<GameState> {
@@ -32,6 +32,7 @@ public class GameTreeGenerator {
             currMoveType = 0;
             currColumn = 0;
             currMove = null;
+            nextMove();
         }
 
         private void nextMove() {
@@ -53,10 +54,10 @@ public class GameTreeGenerator {
 
         @Override
         public GameState next() {
-            nextMove();
             if (!hasNext()) throw new IllegalStateException();
             GameState newState = root.clone();
             newState.move(currMove);
+            nextMove();
             return newState;
         }
     }
