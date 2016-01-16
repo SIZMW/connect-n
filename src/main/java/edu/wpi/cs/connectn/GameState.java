@@ -162,6 +162,18 @@ public class GameState {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj != null && (obj == this || obj instanceof GameState && this.equals((GameState) obj));
+    }
+
+    public boolean equals(GameState other) {
+        return other != null && (other == this ||
+                this.connectLength == other.connectLength &&
+                        this.turn == other.turn &&
+                        Arrays.deepEquals(this.boardState, other.boardState));
+    }
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
