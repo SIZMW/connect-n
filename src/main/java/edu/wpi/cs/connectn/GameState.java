@@ -1,36 +1,64 @@
 package edu.wpi.cs.connectn;
 
-
 import java.util.Arrays;
 
+/**
+ * This class represents the Connect-N game state at any point throughout the game.
+ *
+ * @author Aditya Nivarthi
+ */
 public class GameState {
 
     private final BoardCell[][] boardState;
     private final int connectLength;
     private Player turn;
 
+    /**
+     * Creates a GameState instance with a width, height, {@Link Player} turn and connect length for winning.
+     *
+     * @param w             The width of the game board.
+     * @param h             The height of the game board.
+     * @param turn          The player whose turn it is.
+     * @param connectLength The number of consecutive pieces needed to win.
+     */
     public GameState(int w, int h, Player turn, int connectLength) {
         boardState = new BoardCell[w][h];
         this.turn = turn;
         this.connectLength = connectLength;
 
-        if (w < connectLength && h < connectLength) throw new IllegalArgumentException("Board is too small");
+        // Reject boards that are not at least the width or height of their connect length
+        if (w < connectLength && h < connectLength) {
+            throw new IllegalArgumentException("Board is too small");
+        }
 
         for (int i = 0; i < w; i++) {
             Arrays.fill(boardState[i], BoardCell.NONE);
         }
     }
 
+    /**
+     * Creates a GameState instance with a {@Link Player} turn, connect length for winning, and a board state.
+     *
+     * @param turn          The player whose turn it is.
+     * @param connectLength The number of consecutive pieces needed to win.
+     * @param boardState    The board state to set for this game state.
+     */
     GameState(Player turn, int connectLength, BoardCell[][] boardState) {
         this.turn = turn;
         this.connectLength = connectLength;
         this.boardState = boardState;
 
+        // Reject boards that are not at least the width or height of their connect length
         if (getWidth() < connectLength && getHeight() < connectLength) {
             throw new IllegalArgumentException("Board is too small");
         }
     }
 
+    /**
+     * Creates a GameState instance with another GameState.
+     *
+     * @param state The other GameState to clone.
+     */
     private GameState(GameState state) {
         boardState = new BoardCell[state.getWidth()][state.getHeight()];
         this.turn = state.getTurn();
@@ -41,29 +69,62 @@ public class GameState {
         }
     }
 
+    /**
+     * Switches the player whose turn it is to play.
+     */
     public void switchTurn() {
         turn = this.getOpponent(this.turn);
     }
 
+    /**
+     * Returns the opponent of the player whose turn it currently is.
+     *
+     * @param p The {@Link Player} whose turn it currently is.
+     * @return a {@Link Player}
+     */
     private Player getOpponent(Player p) {
         return (p == Player.MAX) ? Player.MIN : Player.MAX;
     }
 
+    /**
+     * Returns the width of the game board.
+     *
+     * @return an integer
+     */
     public int getWidth() {
         return boardState.length;
     }
 
+    /**
+     * Returns the height of the game board.
+     *
+     * @return an integer
+     */
     public int getHeight() {
         return boardState[0].length;
     }
 
+    /**
+     * Returns a specified position on the game board.
+     *
+     * @param x The horizontal position on the board.
+     * @param y The vertical position on the board.
+     * @return a {@Link BoardCell}
+     */
     public BoardCell get(int x, int y) {
         return boardState[x][y];
     }
 
+    /**
+     * Applies the specified {@Link Move} to this game state.
+     *
+     * @param move The {@Link Move} to be applied to this game state.
+     */
     public void move(Move move) {
+        // Get the move type
         switch (move.getType()) {
             case DROP:
+                // Calculate the lowest position in the column to place the piece
                 int spot = 0;
                 for (int i = getHeight() - 1; i >= 0; i--) {
                     if (boardState[move.getColumn()][i] == BoardCell.NONE) {
@@ -82,8 +143,16 @@ public class GameState {
         this.turn = getOpponent(this.turn);
     }
 
+    /**
+     * Returns whether the specified {@Link Move} is valid to apply to this game state. Must be called before GameState.move(Move move).
+     *
+     * @param move The {@Link Move} to be applied to this game state.
+     * @return a boolean
+     */
     public boolean isMoveValid(Move move) {
-        if (move.getColumn() < 0 || move.getColumn() >= getWidth()) return false;
+        if (move.getColumn() < 0 || move.getColumn() >= getWidth()) {
+            return false;
+        }
 
         switch (move.getType()) {
             case DROP:
@@ -95,6 +164,11 @@ public class GameState {
         }
     }
 
+    /**
+     * Returns the winner of the game in this GameState.
+     *
+     * @return a {@Link GameWinner}
+     */
     public GameWinner getWinner() {
         Player otherPlayer = this.getOpponent(this.turn);
         boolean player = false;
@@ -118,21 +192,35 @@ public class GameState {
             }
         }
 
+        // Both have won
         if (player && other) {
             return GameWinner.TIE;
         }
 
+        // Player has won
         if (player) {
             return this.turn.getAsGameWinner();
         }
 
+        // Opponent has won
         if (other) {
             return otherPlayer.getAsGameWinner();
         }
 
+        // No winner
         return GameWinner.NONE;
     }
 
+    /**
+     * Checks for consecutive pieces in the specified direction to see if the specified {@Link Player} has won.
+     *
+     * @param x  The horizontal position to start checking from.
+     * @param y  The vertical position to start checking from.
+     * @param p  The {@Link Player} whose pieces to check for.
+     * @param dx The horizontal change for checking consecutive pieces.
+     * @param dy The vertical change for checking consecutive pieces.
+     * @return a boolean
+     */
     private boolean checkDirection(int x, int y, Player p, int dx, int dy) {
         int consecutive = 0;
         while (x >= 0 && x < getWidth() && y >= 0 && y < getHeight() && boardState[x][y] == p.getAsBoardCell()) {
@@ -140,18 +228,36 @@ public class GameState {
             x += dx;
             y += dy;
         }
+
         return consecutive >= connectLength;
     }
 
+    /**
+     * Returns the {@Link Player} whose turn it is.
+     *
+     * @return a {@Link Player}
+     */
     public Player getTurn() {
         return turn;
     }
 
+    /**
+     * Indicates whether some object is "equal" to this one.
+     *
+     * @param obj The object to compare to this object.
+     * @return a boolean
+     */
     @Override
     public boolean equals(Object obj) {
         return obj != null && (obj == this || obj instanceof GameState && this.equals((GameState) obj));
     }
 
+    /**
+     * Indicates whether some GameState is "equal" to this one.
+     *
+     * @param other The GameState to compare to this GameState.
+     * @return a boolean
+     */
     public boolean equals(GameState other) {
         return other != null && (other == this ||
                 this.connectLength == other.connectLength &&
@@ -159,6 +265,11 @@ public class GameState {
                         Arrays.deepEquals(this.boardState, other.boardState));
     }
 
+    /**
+     * Returns the string representation of this object.
+     *
+     * @return a String
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -175,6 +286,11 @@ public class GameState {
         return builder.toString();
     }
 
+    /**
+     * Clone this object into another object.
+     *
+     * @return a GameState
+     */
     @Override
     public GameState clone() {
         return new GameState(this);
