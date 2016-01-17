@@ -1,11 +1,19 @@
 package edu.wpi.cs.connectn;
 
 /**
- * Created by djbsn_000 on 1/15/2016.
+ * This class represents configuration values used throughout this project.
+ *
+ * @author Daniel Beckwith
  */
 public final class Config {
 
-    private Config() {}
-
+    /**
+     * The given name to this Connect-N player.
+     */
     public static final String PLAYER_NAME = "VIDEO GAME DUNKEYYYYYYYYYYYYYYYYY";
+
+    /**
+     * Creates a {@Link Config} instance.
+     */
+    private Config() {}
 }
