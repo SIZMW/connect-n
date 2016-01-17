@@ -2,24 +2,37 @@ package edu.wpi.cs.connectn;
 
 import java.util.Iterator;
 
+/**
+ * This class generated the game tree and all of the game states succeeding the beginning game state.
+ *
+ * @author Daniel Beckwith
+ */
 public class GameTreeGenerator {
 
     private static GameTreeGenerator instance = new GameTreeGenerator();
 
+    /**
+     * Returns a GameTreeGenerator instance.
+     *
+     * @return a GameTreeGenerator
+     */
     public static GameTreeGenerator getInstance() {
         return instance;
     }
 
     /**
-     * Generate all {@link GameState}s that could result from legal {@link Move}s on the given {@link GameState}.
+     * Generates all {@link GameState}s that could result from legal {@link Move}s on the given {@link GameState}.
      *
-     * @param root the state to generate new states off of
+     * @param root The state to generate new states off of
      * @return an {@link Iterator} of all legal resulting {@link GameState}s from the root
      */
     public Iterable<GameState> generateChildren(GameState root) {
         return () -> new GameStateChildrenIterator(root);
     }
 
+    /**
+     * This class is used to generate an iterator of all the direct children game states from the parent game state.
+     */
     private static class GameStateChildrenIterator implements Iterator<GameState> {
 
         private final GameState root;
@@ -27,6 +40,11 @@ public class GameTreeGenerator {
         private int currColumn;
         private Move currMove;
 
+        /**
+         * Creates a GameStateChildrenIterator instance with the specified root {@Link GameState}.
+         *
+         * @param root The parent {@Link GameState} to begin generation from.
+         */
         public GameStateChildrenIterator(GameState root) {
             this.root = root;
             currMoveType = 0;
@@ -35,12 +53,16 @@ public class GameTreeGenerator {
             nextMove();
         }
 
+        /**
+         * Generates the next {@Link Move} to apply to the children {@Link GameState}s.
+         */
         private void nextMove() {
             do {
                 if (currMoveType >= MoveType.values().length || currColumn >= root.getWidth()) {
                     currMove = null;
                     break;
                 }
+
                 currMove = new Move(MoveType.values()[currMoveType], currColumn++);
                 if (currColumn >= root.getWidth()) {
                     currColumn = 0;
@@ -50,14 +72,27 @@ public class GameTreeGenerator {
             while (!root.isMoveValid(currMove));
         }
 
+        /**
+         * Returns whether the iterator has a next {@Link GameState}.
+         *
+         * @return a boolean
+         */
         @Override
         public boolean hasNext() {
             return currMove != null;
         }
 
+        /**
+         * Returns the next {@Link GameState} in the iterator.
+         *
+         * @return a {@Link GameState}
+         */
         @Override
         public GameState next() {
-            if (!hasNext()) throw new IllegalStateException();
+            if (!hasNext()) {
+                throw new IllegalStateException();
+            }
+
             GameState newState = root.clone();
             newState.move(currMove);
             nextMove();
