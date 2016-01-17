@@ -2,6 +2,7 @@ package edu.wpi.cs.connectn;
 
 /**
  * This class represents a move in a specified column of the Connect-N board.
+ *
  * @author Aditya Nivarthi
  */
 public class Move {
@@ -11,7 +12,8 @@ public class Move {
 
     /**
      * Creates a Move instance with the specified type and column.
-     * @param type The type of move, POP or DROP.
+     *
+     * @param type   The type of move, POP or DROP.
      * @param column The column where the move is being executed.
      */
     public Move(MoveType type, int column) {
@@ -21,6 +23,7 @@ public class Move {
 
     /**
      * Returns the move type of this move.
+     *
      * @return a MoveType.
      */
     public MoveType getType() {
@@ -29,6 +32,7 @@ public class Move {
 
     /**
      * Returns the column of this move.
+     *
      * @return an integer
      */
     public int getColumn() {
@@ -37,6 +41,7 @@ public class Move {
 
     /**
      * Returns a string representation of this object.
+     *
      * @return a String
      */
     @Override
