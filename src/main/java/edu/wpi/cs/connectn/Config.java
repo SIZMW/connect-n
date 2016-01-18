@@ -13,7 +13,7 @@ public final class Config {
     public static final String PLAYER_NAME = "VIDEO GAME DUNKEYYYYYYYYYYYYYYYYY";
 
     /**
-     * Creates a {@Link Config} instance.
+     * Creates a {@link Config} instance.
      */
     private Config() {}
 }

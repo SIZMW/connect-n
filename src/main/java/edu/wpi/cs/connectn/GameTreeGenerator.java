@@ -41,9 +41,9 @@ public class GameTreeGenerator {
         private Move currMove;
 
         /**
-         * Creates a GameStateChildrenIterator instance with the specified root {@Link GameState}.
+         * Creates a {@link GameStateChildrenIterator} instance with the specified root {@link GameState}.
          *
-         * @param root The parent {@Link GameState} to begin generation from.
+         * @param root The parent {@link GameState} to begin generation from.
          */
         public GameStateChildrenIterator(GameState root) {
             this.root = root;
@@ -54,7 +54,7 @@ public class GameTreeGenerator {
         }
 
         /**
-         * Generates the next {@Link Move} to apply to the children {@Link GameState}s.
+         * Generates the next {@link Move} to apply to the children {@link GameState}s.
          */
         private void nextMove() {
             do {
@@ -73,7 +73,7 @@ public class GameTreeGenerator {
         }
 
         /**
-         * Returns whether the iterator has a next {@Link GameState}.
+         * Returns whether the iterator has a next {@link GameState}.
          *
          * @return a boolean
          */
@@ -83,9 +83,9 @@ public class GameTreeGenerator {
         }
 
         /**
-         * Returns the next {@Link GameState} in the iterator.
+         * Returns the next {@link GameState} in the iterator.
          *
-         * @return a {@Link GameState}
+         * @return a {@link GameState}
          */
         @Override
         public GameState next() {

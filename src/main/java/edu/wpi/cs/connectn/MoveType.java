@@ -1,7 +1,7 @@
 package edu.wpi.cs.connectn;
 
 /**
- * This enumerated type represents the types of moves that can be applied to a {@Link GameState}.
+ * This enumerated type represents the types of moves that can be applied to a {@link GameState}.
  *
  * @author Daniel Beckwith
  */

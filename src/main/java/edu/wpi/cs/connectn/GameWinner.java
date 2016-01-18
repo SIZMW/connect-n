@@ -1,7 +1,7 @@
 package edu.wpi.cs.connectn;
 
 /**
- * This enumerated type represents the potential winners of any given {@Link GameState}.
+ * This enumerated type represents the potential winners of any given {@link GameState}.
  *
  * @author Aditya Nivarthi
  */

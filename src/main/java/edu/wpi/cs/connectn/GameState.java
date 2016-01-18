@@ -14,7 +14,7 @@ public class GameState {
     private Player turn;
 
     /**
-     * Creates a GameState instance with a width, height, {@Link Player} turn and connect length for winning.
+     * Creates a GameState instance with a width, height, {@link Player} turn and connect length for winning.
      *
      * @param w             The width of the game board.
      * @param h             The height of the game board.
@@ -37,7 +37,7 @@ public class GameState {
     }
 
     /**
-     * Creates a GameState instance with a {@Link Player} turn, connect length for winning, and a board state.
+     * Creates a {@link GameState} instance with a {@link Player} turn, connect length for winning, and a board state.
      *
      * @param turn          The player whose turn it is.
      * @param connectLength The number of consecutive pieces needed to win.
@@ -55,9 +55,9 @@ public class GameState {
     }
 
     /**
-     * Creates a GameState instance with another GameState.
+     * Creates a {@link GameState} instance with another {@link GameState}.
      *
-     * @param state The other GameState to clone.
+     * @param state The other {@link GameState} to clone.
      */
     private GameState(GameState state) {
         boardState = new BoardCell[state.getWidth()][state.getHeight()];
@@ -79,8 +79,8 @@ public class GameState {
     /**
      * Returns the opponent of the player whose turn it currently is.
      *
-     * @param p The {@Link Player} whose turn it currently is.
-     * @return a {@Link Player}
+     * @param p The {@link Player} whose turn it currently is.
+     * @return a {@link Player}
      */
     private Player getOpponent(Player p) {
         return (p == Player.MAX) ? Player.MIN : Player.MAX;
@@ -109,16 +109,16 @@ public class GameState {
      *
      * @param x The horizontal position on the board.
      * @param y The vertical position on the board.
-     * @return a {@Link BoardCell}
+     * @return a {@link BoardCell}
      */
     public BoardCell get(int x, int y) {
         return boardState[x][y];
     }
 
     /**
-     * Applies the specified {@Link Move} to this game state.
+     * Applies the specified {@link Move} to this game state.
      *
-     * @param move The {@Link Move} to be applied to this game state.
+     * @param move The {@link Move} to be applied to this game state.
      */
     public void move(Move move) {
         // Get the move type
@@ -144,9 +144,9 @@ public class GameState {
     }
 
     /**
-     * Returns whether the specified {@Link Move} is valid to apply to this game state. Must be called before GameState.move(Move move).
+     * Returns whether the specified {@link Move} is valid to apply to this game state. Must be called before {@link GameState#move(Move)}.
      *
-     * @param move The {@Link Move} to be applied to this game state.
+     * @param move The {@link Move} to be applied to this game state.
      * @return a boolean
      */
     public boolean isMoveValid(Move move) {
@@ -165,9 +165,9 @@ public class GameState {
     }
 
     /**
-     * Returns the winner of the game in this GameState.
+     * Returns the winner of the game in this {@link GameState}.
      *
-     * @return a {@Link GameWinner}
+     * @return a {@link GameWinner}
      */
     public GameWinner getWinner() {
         Player otherPlayer = this.getOpponent(this.turn);
@@ -212,11 +212,11 @@ public class GameState {
     }
 
     /**
-     * Checks for consecutive pieces in the specified direction to see if the specified {@Link Player} has won.
+     * Checks for consecutive pieces in the specified direction to see if the specified {@link Player} has won.
      *
      * @param x  The horizontal position to start checking from.
      * @param y  The vertical position to start checking from.
-     * @param p  The {@Link Player} whose pieces to check for.
+     * @param p  The {@link Player} whose pieces to check for.
      * @param dx The horizontal change for checking consecutive pieces.
      * @param dy The vertical change for checking consecutive pieces.
      * @return a boolean
@@ -233,9 +233,9 @@ public class GameState {
     }
 
     /**
-     * Returns the {@Link Player} whose turn it is.
+     * Returns the {@link Player} whose turn it is.
      *
-     * @return a {@Link Player}
+     * @return a {@link Player}
      */
     public Player getTurn() {
         return turn;
@@ -253,9 +253,9 @@ public class GameState {
     }
 
     /**
-     * Indicates whether some GameState is "equal" to this one.
+     * Indicates whether some {@link GameState} is "equal" to this one.
      *
-     * @param other The GameState to compare to this GameState.
+     * @param other The {@link GameState} to compare to this {@link GameState}.
      * @return a boolean
      */
     public boolean equals(GameState other) {
@@ -268,7 +268,7 @@ public class GameState {
     /**
      * Returns the string representation of this object.
      *
-     * @return a String
+     * @return a {@link String}
      */
     @Override
     public String toString() {
@@ -289,7 +289,7 @@ public class GameState {
     /**
      * Clone this object into another object.
      *
-     * @return a GameState
+     * @return a {@link GameState}
      */
     @Override
     public GameState clone() {

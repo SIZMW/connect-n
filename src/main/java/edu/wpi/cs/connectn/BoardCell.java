@@ -13,7 +13,7 @@ public enum BoardCell {
     private String symbol;
 
     /**
-     * Creates a BoardCell instance with the specified symbol.
+     * Creates a {@link BoardCell} instance with the specified symbol.
      *
      * @param symbol The symbol to represent the enumerated type in string form.
      */
@@ -31,9 +31,9 @@ public enum BoardCell {
     }
 
     /**
-     * Returns this enumerated type in the form of a {@Link GameWinner} enumerated type.
+     * Returns this enumerated type in the form of a {@link GameWinner} enumerated type.
      *
-     * @return a {@Link GameWinner}
+     * @return a {@link GameWinner}
      */
     public GameWinner getAsGameWinner() {
         return GameWinner.valueOf(this.toString());

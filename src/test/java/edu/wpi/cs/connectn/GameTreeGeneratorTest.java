@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by djbsn_000 on 1/15/2016.
+ * This class test the {@link GameTreeGenerator} class.
+ *
+ * @author Daniel Beckwith
  */
 public class GameTreeGeneratorTest {
 

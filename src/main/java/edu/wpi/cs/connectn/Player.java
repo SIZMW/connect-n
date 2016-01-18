@@ -9,18 +9,18 @@ public enum Player {
     MIN, MAX;
 
     /**
-     * Returns this Player in the form of a {@Link BoardCell}.
+     * Returns this Player in the form of a {@link BoardCell}.
      *
-     * @return a {@Link BoardCell}
+     * @return a {@link BoardCell}
      */
     public BoardCell getAsBoardCell() {
         return BoardCell.valueOf(this.toString());
     }
 
     /**
-     * Returns this Player in the form of a {@Link GameWinner}.
+     * Returns this Player in the form of a {@link GameWinner}.
      *
-     * @return a {@Link GameWinner}
+     * @return a {@link GameWinner}
      */
     public GameWinner getAsGameWinner() {
         return GameWinner.valueOf(this.toString());

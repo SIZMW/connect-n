@@ -11,9 +11,9 @@ public class Move {
     private final int column;
 
     /**
-     * Creates a Move instance with the specified type and column.
+     * Creates a {@link Move} instance with the specified type and column.
      *
-     * @param type   The type of move, POP or DROP.
+     * @param type   The type of move.
      * @param column The column where the move is being executed.
      */
     public Move(MoveType type, int column) {
@@ -24,7 +24,7 @@ public class Move {
     /**
      * Returns the move type of this move.
      *
-     * @return a MoveType.
+     * @return a {@link MoveType}.
      */
     public MoveType getType() {
         return type;
@@ -42,7 +42,7 @@ public class Move {
     /**
      * Returns a string representation of this object.
      *
-     * @return a String
+     * @return a {@link String}
      */
     @Override
     public String toString() {
