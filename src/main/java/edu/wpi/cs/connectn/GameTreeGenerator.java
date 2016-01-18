@@ -26,14 +26,14 @@ public class GameTreeGenerator {
      * @param root The state to generate new states off of
      * @return an {@link Iterator} of all legal resulting {@link GameState}s from the root
      */
-    public Iterable<GameState> generateChildren(GameState root) {
-        return () -> new GameStateChildrenIterator(root);
+    public Iterable<Move> generateValidMoves(GameState root) {
+        return () -> new ValidMoveIterator(root);
     }
 
     /**
      * This class is used to generate an iterator of all the direct children game states from the parent game state.
      */
-    private static class GameStateChildrenIterator implements Iterator<GameState> {
+    private static class ValidMoveIterator implements Iterator<Move> {
 
         private final GameState root;
         private int currMoveType;
@@ -41,11 +41,11 @@ public class GameTreeGenerator {
         private Move currMove;
 
         /**
-         * Creates a {@link GameStateChildrenIterator} instance with the specified root {@link GameState}.
+         * Creates a {@link ValidMoveIterator} instance with the specified root {@link GameState}.
          *
          * @param root The parent {@link GameState} to begin generation from.
          */
-        public GameStateChildrenIterator(GameState root) {
+        public ValidMoveIterator(GameState root) {
             this.root = root;
             currMoveType = 0;
             currColumn = 0;
@@ -88,15 +88,14 @@ public class GameTreeGenerator {
          * @return a {@link GameState}
          */
         @Override
-        public GameState next() {
+        public Move next() {
             if (!hasNext()) {
                 throw new IllegalStateException();
             }
 
-            GameState newState = root.clone();
-            newState.move(currMove);
+            Move move = currMove;
             nextMove();
-            return newState;
+            return move;
         }
     }
 }

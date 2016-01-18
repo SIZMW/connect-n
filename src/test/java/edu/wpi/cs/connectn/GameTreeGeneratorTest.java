@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * This class test the {@link GameTreeGenerator} class.
+ * This class tests the {@link GameTreeGenerator} class.
  *
  * @author Daniel Beckwith
  */
@@ -20,17 +20,19 @@ public class GameTreeGeneratorTest {
         return newBoard;
     }
 
-    private <T> void assertArrayIterableEquals(T[] expected, Iterable<T> actual) {
+    private void assertMoves(GameState[] expected, GameState root, Iterable<Move> actual) {
         int i = 0;
-        for (T actualElement : actual) {
+        for (Move move : actual) {
             if (i >= expected.length) {
-                Assert.fail("Too many elements were generated");
+                Assert.fail("Too many moves were generated");
             }
-            Assert.assertEquals("Element " + i + " was incorrect", expected[i], actualElement);
+            GameState newState = root.clone();
+            newState.move(move);
+            Assert.assertEquals("GameState " + i + " was incorrect", expected[i], newState);
             i++;
         }
         if (i < expected.length) {
-            Assert.fail("Too few elements were generated");
+            Assert.fail("Too few moves were generated");
         }
     }
 
@@ -47,9 +49,16 @@ public class GameTreeGeneratorTest {
             }
             expectedChildren[i] = new GameState(Player.MIN, 4, board);
         }
-        assertArrayIterableEquals(expectedChildren, GameTreeGenerator.getInstance().generateChildren(start));
+        assertMoves(expectedChildren, start, GameTreeGenerator.getInstance().generateValidMoves(start));
 
-        assertArrayIterableEquals(new GameState[] {
+        start = new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
+                { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
+                { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
+                { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
+                { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
+        }));
+        assertMoves(new GameState[] {
                         new GameState(Player.MIN, 4, fixBoard(new BoardCell[][] {
                                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
@@ -100,12 +109,7 @@ public class GameTreeGeneratorTest {
                                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
                         }))
                 },
-                GameTreeGenerator.getInstance().generateChildren(new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
-                        { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
-                        { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
-                        { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
-                        { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
-                        { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-                }))));
+                start,
+                GameTreeGenerator.getInstance().generateValidMoves(start));
     }
 }

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * This class test the {@link GameState} class.
+ * This class tests the {@link GameState} class.
  *
  * @author Daniel Beckwith
  */
