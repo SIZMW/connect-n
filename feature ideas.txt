@@ -8,3 +8,8 @@ xoo+
 oxo+
 
 if the end of a 3-line (*) has an odd number (if it's your turn) of spaces (+) up to where it would be completed, is very good, otherwise not as good
+
+
+
+move ordering should be a little more random
+moves in the middle of the board are probably more likely?? order from center outward
