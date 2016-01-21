@@ -3,6 +3,6 @@ package edu.wpi.cs.connectn;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello! I'm " + Config.PLAYER_NAME);
+        Communicator.getInstance().sendCmd(Config.PLAYER_NAME);
     }
 }
