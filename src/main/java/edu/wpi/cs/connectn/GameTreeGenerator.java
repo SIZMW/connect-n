@@ -20,6 +20,8 @@ public class GameTreeGenerator {
         return instance;
     }
 
+    private GameTreeGenerator() {}
+
     /**
      * Generates all {@link GameState}s that could result from legal {@link Move}s on the given {@link GameState}.
      *

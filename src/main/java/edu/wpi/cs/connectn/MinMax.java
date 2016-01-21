@@ -15,6 +15,8 @@ public class MinMax {
         return instance;
     }
 
+    private MinMax() {}
+
     /**
      * Gets the next best move based on the given heuristic
      *
