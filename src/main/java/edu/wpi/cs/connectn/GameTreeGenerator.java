@@ -12,6 +12,11 @@ public class GameTreeGenerator {
     private static GameTreeGenerator instance = new GameTreeGenerator();
 
     /**
+     * Creates a GameTreeGenerator instance.
+     */
+    private GameTreeGenerator() {}
+
+    /**
      * Returns a GameTreeGenerator instance.
      *
      * @return a GameTreeGenerator
@@ -19,8 +24,6 @@ public class GameTreeGenerator {
     public static GameTreeGenerator getInstance() {
         return instance;
     }
-
-    private GameTreeGenerator() {}
 
     /**
      * Generates all {@link GameState}s that could result from legal {@link Move}s on the given {@link GameState}.

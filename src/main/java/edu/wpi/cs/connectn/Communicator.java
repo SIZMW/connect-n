@@ -13,17 +13,15 @@ import java.io.PrintStream;
 public class Communicator {
 
     private static Communicator instance;
-
-    public static Communicator getInstance() {
-        return instance;
-    }
-
     private PrintStream out;
     private BufferedReader in;
-
     private Communicator() {
         setOut(System.out);
         setIn(System.in);
+    }
+
+    public static Communicator getInstance() {
+        return instance;
     }
 
     /**
