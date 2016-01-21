@@ -28,14 +28,16 @@ public class Communicator {
 
     /**
      * Sets the stream used to send commands to the referee.
+     *
      * @param out the {@link OutputStream} to use as the output
      */
     public void setOut(OutputStream out) {
-        this.out = new PrintStream( out);
+        this.out = new PrintStream(out);
     }
 
     /**
      * Sets the stream used to get commands from the referee.
+     *
      * @param in the {@link InputStream} to use as the input
      */
     public void setIn(InputStream in) {
@@ -44,6 +46,7 @@ public class Communicator {
 
     /**
      * Sends a single command to referee.
+     *
      * @param cmd the command to send
      */
     public void sendCmd(String cmd) {
@@ -52,6 +55,7 @@ public class Communicator {
 
     /**
      * Retrieves a single command from the referee. This method may block while it waits for the referee to send a command.
+     *
      * @return the command from the referee, or {@code null} if there was an error
      */
     public String getCmd() {
