@@ -6,7 +6,7 @@
 
     <groupId>edu.wpi.cs</groupId>
     <artifactId>connectn</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <build>
         <resources>
@@ -55,6 +55,7 @@
                             <mainClass>edu.wpi.cs.connectn.Main</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>anivarthi-djbeckwith-connectn</finalName>
                 </configuration>
             </plugin>
         </plugins>
