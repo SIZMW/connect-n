@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class GameStateEvaluator {
 
-    private static GameStateEvaluator instance;
+    private static GameStateEvaluator instance = new GameStateEvaluator();
 
     public static GameStateEvaluator getInstance() {
         return instance;
