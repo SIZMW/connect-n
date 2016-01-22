@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public class GameStateEvaluator {
+
     private static GameStateEvaluator instance;
 
     public GameStateEvaluator getInstance() {
@@ -12,7 +13,7 @@ public class GameStateEvaluator {
 
     private GameStateEvaluator() {}
 
-    public Map<Integer, Collection<BoardFeature>> getFeatuures(GameState state) {
-
+    public Map<Integer, Collection<BoardFeature>> getFeatures(GameState state) {
+        return null;
     }
 }
