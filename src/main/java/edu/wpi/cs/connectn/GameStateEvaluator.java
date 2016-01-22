@@ -7,7 +7,7 @@ public class GameStateEvaluator {
 
     private static GameStateEvaluator instance;
 
-    public GameStateEvaluator getInstance() {
+    public static GameStateEvaluator getInstance() {
         return instance;
     }
 
