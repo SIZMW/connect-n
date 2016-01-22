@@ -35,7 +35,7 @@ public class GameStateEvaluator {
                 // generate all features of length two from the individual pieces
                 features.put(2, new ArrayList<>());
                 for (BoardFeature singleFeature : features.get(1)) {
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < BoardFeature.VALID_DIRS.length / 2; i++) {
                         BoardPos startPos = singleFeature.getPositions()[0];
                         int x = startPos.getX() + BoardFeature.VALID_DIRS[i];
                         int y = startPos.getY() + BoardFeature.VALID_DIRS[i + 1];
