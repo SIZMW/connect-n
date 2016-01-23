@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * This class defines the heuristic used to quantify how good a board state is.
  *
- * @author Daniel Beckwith
+ * @author Aditya Nivarthi
  */
 public class Heuristic implements Function<GameState, Double> {
 

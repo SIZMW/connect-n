@@ -13,6 +13,11 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Main class to run the connect-n AI.
+ *
+ * @author Aditya Nivarthi
+ */
 public class Main {
 
     // Termination constants
@@ -33,6 +38,9 @@ public class Main {
     private static int turn = -1;
     private static int timelimit = -1;
 
+    /**
+     * Defines the potential heuristic weighting functions to use.
+     */
     private static List<BiFunction<Integer, Integer, Double>> heuristicFunctions = Arrays.asList(
             (l, n) -> 1d,
             (l, n) -> (double) l,
@@ -40,6 +48,9 @@ public class Main {
             (l, n) -> (double) l * l * n
     );
 
+    /**
+     * Sets up the file logging for debugging purposes.
+     */
     private static void setUpLogger() {
         try {
             LogManager.getLogManager().reset();
@@ -74,6 +85,11 @@ public class Main {
         }
     }
 
+    /**
+     * Sets up the heuristic weighting functions for the min max heuristic.
+     *
+     * @param args The command line arguments.
+     */
     private static void setUpHeuristics(String args[]) {
         int heuristicOption = 0;
         if (args.length > 0) {
@@ -90,6 +106,9 @@ public class Main {
         Heuristic.getInstance().setWeightFunction(heuristicFunctions.get(heuristicOption));
     }
 
+    /**
+     * Initializes the program and reads all the input data from the referee.
+     */
     public static void init() {
         Random rand = new Random();
         String name = Config.PLAYER_NAME + rand.nextInt();
@@ -133,6 +152,9 @@ public class Main {
         currentGameState = new GameState(width, height, (turn == playerNumber) ? Player.MAX : Player.MIN, connectLength);
     }
 
+    /**
+     * Makes this player's moves until the referee says the game is over or one of the players has won.
+     */
     public static void makeMoves() {
         Move move;
         while (true) {
@@ -159,14 +181,29 @@ public class Main {
         }
     }
 
+    /**
+     * Checks the referee input for the termination strings.
+     *
+     * @param input The input passed from the referee.
+     * @return true if referee terminated the game; false otherwise
+     */
     public static boolean gameIsOver(String input) {
         return (input.equals(WIN) || input.equals(LOSE) || input.equals(DRAW));
     }
 
+    /**
+     * Converts the {@link Move} object into a string representation for the referee to read from standard input.
+     *
+     * @param move The {@link Move} object to convert.
+     * @return a String
+     */
     public static String getMoveAsCommand(Move move) {
         return move.getColumn() + " " + ((move.getType() == MoveType.POP) ? 0 + "" : 1 + "");
     }
 
+    /**
+     * Main function.
+     */
     public static void main(String[] args) {
         Main.setUpHeuristics(args);
         Main.init();
