@@ -13,17 +13,24 @@ import java.io.PrintStream;
 public class Communicator {
 
     private static Communicator instance = new Communicator();
-
-    public static Communicator getInstance() {
-        return instance;
-    }
-
     private PrintStream out;
     private BufferedReader in;
 
+    /**
+     * Creates a Communicator instance.
+     */
     private Communicator() {
         setOut(System.out);
         setIn(System.in);
+    }
+
+    /**
+     * Returns the Communicator instance.
+     *
+     * @return a Communicator
+     */
+    public static Communicator getInstance() {
+        return instance;
     }
 
     /**
