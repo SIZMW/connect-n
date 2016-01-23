@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AutoRef/AutoRef.iml" filepath="$PROJECT_DIR$/AutoRef/AutoRef.iml" />
       <module fileurl="file://$PROJECT_DIR$/Connect N.iml" filepath="$PROJECT_DIR$/Connect N.iml" />
     </modules>
   </component>

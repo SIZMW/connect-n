@@ -24,8 +24,16 @@
         <processorPath useClasspath="true" />
         <module name="Connect N" />
       </profile>
+      <profile default="false" name="Annotation profile for AutoRef" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="AutoRef" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AutoRef" target="1.8" />
       <module name="Connect N" target="1.8" />
     </bytecodeTargetLevel>
   </component>
