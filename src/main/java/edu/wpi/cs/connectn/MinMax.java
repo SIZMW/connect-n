@@ -34,6 +34,7 @@ public class MinMax {
         logger.info("Move " + moveNumber++);
         long moveEndTime = System.currentTimeMillis() + timeLimit * 1000;
         Move bestMove = null;
+        // TODO: multithread different depths
         depthLoop:
         for (int currDepth = 1; ; currDepth++) {
             logger.info("minmax to depth " + currDepth);
