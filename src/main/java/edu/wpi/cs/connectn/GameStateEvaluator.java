@@ -35,25 +35,19 @@ public class GameStateEvaluator {
                 // generate all features of length two from the individual pieces
                 features.put(2, new HashSet<>());
                 for (BoardFeature singleFeature : features.get(1)) {
-//                    System.out.println("singleFeature = " + singleFeature);
-                    for (int i = 0; i < BoardFeature.VALID_DIRS.length / 2; i++) {
+                    for (int i = 0; i < BoardFeature.VALID_DIRS.length; i += 2) {
                         BoardPos startPos = singleFeature.getPositions()[0];
                         int x = startPos.getX() + BoardFeature.VALID_DIRS[i];
                         int y = startPos.getY() + BoardFeature.VALID_DIRS[i + 1];
-//                        System.out.println("x = " + x);
-//                        System.out.println("y = " + y);
                         BoardCell nextCell = state.get(x, y);
-//                        System.out.println("nextCell = " + nextCell);
                         if (nextCell.equals(BoardCell.MAX)) {
-                            BoardFeature f = new BoardFeature(startPos, new BoardPos(x, y, nextCell));
-                            features.get(2).add(f);
-//                            System.out.println("f = " + f);
+                            features.get(2).add(new BoardFeature(startPos, new BoardPos(x, y, nextCell)));
                         }
                     }
                 }
 
                 for (int currLen = 3; currLen <= n; currLen++) {
-                    features.put(3, new HashSet<>());
+                    features.put(currLen, new HashSet<>());
                     for (BoardFeature feature : features.get(currLen - 1)) {
                         BoardPos lineEnd = feature.getPositions()[feature.getLength() - 1];
                         int x = lineEnd.getX() + feature.getDx();

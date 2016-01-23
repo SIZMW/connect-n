@@ -41,6 +41,10 @@ public class GameStateEvaluatorTest {
                         new BoardPos(1, 2, BoardCell.MAX)
                 ));
                 add(new BoardFeature(
+                        new BoardPos(0, 4, BoardCell.MAX),
+                        new BoardPos(1, 3, BoardCell.MAX)
+                ));
+                add(new BoardFeature(
                         new BoardPos(1, 1, BoardCell.MAX),
                         new BoardPos(1, 2, BoardCell.MAX)
                 ));
@@ -81,6 +85,7 @@ public class GameStateEvaluatorTest {
                         new BoardPos(4, 4, BoardCell.MAX)
                 ));
             }});
+            put(4, new HashSet<>());
         }}, GameStateEvaluator.getInstance().getFeatures(new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
