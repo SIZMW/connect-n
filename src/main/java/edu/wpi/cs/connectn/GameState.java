@@ -41,9 +41,10 @@ public class GameState {
     /**
      * Creates a {@link GameState} instance with a {@link Player} turn, connect length for winning, and a board state.
      *
-     * @param turn          The player whose turn it is.
-     * @param connectLength The number of consecutive pieces needed to win.
-     * @param boardState    The board state to set for this game state.
+     * @param turn            The player whose turn it is.
+     * @param connectLength   The number of consecutive pieces needed to win.
+     * @param boardState      The board state to set for this game state.
+     * @param playerHasPopped The states of each player having used their pop move in the game.
      */
     GameState(Player turn, int connectLength, BoardCell[][] boardState, boolean[] playerHasPopped) {
         this.turn = turn;
@@ -55,15 +56,6 @@ public class GameState {
         if (getWidth() < connectLength && getHeight() < connectLength) {
             throw new IllegalArgumentException("Board is too small");
         }
-    }
-
-    /**
-     * Returns the connect length for this board that is needed in order to win.
-     *
-     * @return an integer
-     */
-    public int getConnectLength() {
-        return connectLength;
     }
 
     /**
@@ -80,6 +72,15 @@ public class GameState {
         for (int i = 0; i < state.getWidth(); i++) {
             boardState[i] = state.boardState[i].clone();
         }
+    }
+
+    /**
+     * Returns the connect length for this board that is needed in order to win.
+     *
+     * @return an integer
+     */
+    public int getConnectLength() {
+        return connectLength;
     }
 
     /**
@@ -153,6 +154,8 @@ public class GameState {
             case POP:
                 System.arraycopy(boardState[move.getColumn()], 0, boardState[move.getColumn()], 1, getHeight() - 1);
                 boardState[move.getColumn()][0] = BoardCell.NONE;
+
+                // Sets that the player has used their pop move
                 playerHasPopped[this.turn.ordinal()] = true;
                 break;
         }
