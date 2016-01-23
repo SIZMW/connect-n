@@ -5,16 +5,35 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class evaluates the specified {@link GameState}s by the {@link BoardFeature}s they have.
+ *
+ * @author Daniel Beckwith
+ */
 public class GameStateEvaluator {
 
     private static GameStateEvaluator instance = new GameStateEvaluator();
 
+    /**
+     * Creates a GameStateEvaluator instance.
+     */
+    private GameStateEvaluator() {}
+
+    /**
+     * Returns the GameStateEvaluator instance.
+     *
+     * @return
+     */
     public static GameStateEvaluator getInstance() {
         return instance;
     }
 
-    private GameStateEvaluator() {}
-
+    /**
+     * Returns all the {@link BoardFeature}s of the specified {@link GameState}.
+     *
+     * @param state The game state to evaluate for features.
+     * @return a Map<Integer, Set<BoardFeature>> of feature length mapped to a collection of all the features of that lnegth.
+     */
     public Map<Integer, Set<BoardFeature>> getFeatures(GameState state) {
         Map<Integer, Set<BoardFeature>> features = new HashMap<>();
         int n = state.getConnectLength();
