@@ -15,18 +15,23 @@ import java.util.logging.SimpleFormatter;
 
 public class Main {
 
+    // Termination constants
     public static String WIN = "win";
     public static String DRAW = "draw";
     public static String LOSE = "lose";
-
     public static String PLAYER_2 = "player2:";
-    private static Logger logger = Logger.getGlobal();
-    private static FileHandler loggingFileHandler;
-    private static ConsoleHandler loggingConsoleHandler;
-    private static SimpleFormatter simpleFormatter;
 
+    // Logger
+    private static Logger logger = Logger.getGlobal();
+
+    // Current game information
     private static GameState currentGameState;
     private static int playerNumber = -1;
+    private static int height = -1;
+    private static int width = -1;
+    private static int connectLength = -1;
+    private static int turn = -1;
+    private static int timelimit = -1;
 
     private static List<BiFunction<Integer, Integer, Double>> heuristicFunctions = Arrays.asList(
             (l, n) -> 1d,
@@ -40,9 +45,12 @@ public class Main {
             LogManager.getLogManager().reset();
             logger.setUseParentHandlers(false);
 
-            loggingFileHandler = new FileHandler("./log.log");
+            // Log file
+            FileHandler loggingFileHandler = new FileHandler("./log" + playerNumber + ".log");
             loggingFileHandler.setLevel(Level.ALL);
-            loggingConsoleHandler = new ConsoleHandler();
+
+            // Console logging
+            ConsoleHandler loggingConsoleHandler = new ConsoleHandler();
             loggingConsoleHandler.setLevel(Level.OFF);
 
             // Remove old handlers
@@ -52,6 +60,7 @@ public class Main {
                 Logger.getGlobal().removeHandler(handler);
             }
 
+            // Add logging handlers
             logger.addHandler(loggingFileHandler);
             logger.addHandler(loggingConsoleHandler);
 
@@ -72,7 +81,10 @@ public class Main {
                 heuristicOption = Integer.parseInt(args[0]);
             }
             catch (NumberFormatException ignored) {}
-            if (heuristicOption >= heuristicFunctions.size()) heuristicOption = 0;
+
+            if (heuristicOption >= heuristicFunctions.size()) {
+                heuristicOption = 0;
+            }
         }
 
         Heuristic.getInstance().setWeightFunction(heuristicFunctions.get(heuristicOption));
@@ -80,29 +92,36 @@ public class Main {
 
     public static void init() {
         Random rand = new Random();
-
         String name = Config.PLAYER_NAME + rand.nextInt();
-        Communicator.getInstance().sendCmd(name);
-        String playerNames = Communicator.getInstance().getCmd();
-        String config = Communicator.getInstance().getCmd();
 
+        // Send this player's name to the referee
+        Communicator.getInstance().sendCmd(name);
+
+        // Gets both players' names from the referee
+        String playerNames = Communicator.getInstance().getCmd();
+
+        // Gets the configuration of the game from the referee
+        String config = Communicator.getInstance().getCmd();
         String[] options = config.split(" ");
 
         if (options.length < 5) {
             return;
         }
 
-        int height = Integer.parseInt(options[0]);
-        int width = Integer.parseInt(options[1]);
-        int connectLength = Integer.parseInt(options[2]);
-        int turn = Integer.parseInt(options[3]);
-        int timelimit = Integer.parseInt(options[4]);
+        // Parse confiiguration options
+        height = Integer.parseInt(options[0]);
+        width = Integer.parseInt(options[1]);
+        connectLength = Integer.parseInt(options[2]);
+        turn = Integer.parseInt(options[3]);
+        timelimit = Integer.parseInt(options[4]);
 
+        // Get player numbers
         String[] playerNumbers = playerNames.split(PLAYER_2);
         if (playerNumbers.length < 2) {
             return;
         }
 
+        // Determine players by referee numbers
         if (playerNumbers[0].contains(name)) {
             playerNumber = 1;
         }
@@ -110,46 +129,48 @@ public class Main {
             playerNumber = 2;
         }
 
-        if (turn == playerNumber) {
-            // make first move
-        }
-        else {
-
-        }
-
-        // set up current game state
+        // Construct game state
+        currentGameState = new GameState(width, height, (turn == playerNumber) ? Player.MAX : Player.MIN, connectLength);
     }
 
     public static void makeMoves() {
-        String command = Communicator.getInstance().getCmd();
-        while (!Main.gameIsOver(command)) {
-            String args[] = command.split(" ");
-            int col = Integer.parseInt(args[0]);
-            int moveType = Integer.parseInt(args[1]);
+        Move move;
+        while (true) {
+            if (currentGameState.getTurn() == Player.MAX) {
+                move = MinMax.getInstance().getNextBestMove(currentGameState, 5, Heuristic.getInstance()); //TODO: Add iterative deepening
+                Communicator.getInstance().sendCmd(Main.getMoveAsCommand(move));
+                logger.log(Level.INFO, "Player " + playerNumber + " move: " + move.toString());
+            }
+            else {
+                String command = Communicator.getInstance().getCmd();
+                if (Main.gameIsOver(command)) {
+                    break;
+                }
 
-            Move opponentMove = new Move((moveType == 0) ? MoveType.POP : MoveType.DROP, col);
-            currentGameState.move(opponentMove);
+                String args[] = command.split(" ");
+                int col = Integer.parseInt(args[0]);
+                int moveType = Integer.parseInt(args[1]);
 
-            // do my move and send it
+                move = new Move((moveType == 0) ? MoveType.POP : MoveType.DROP, col);
+            }
+
+
+            currentGameState.move(move);
         }
     }
 
     public static boolean gameIsOver(String input) {
-        if (input.equals(WIN) || input.equals(LOSE) || input.equals(DRAW)) {
-            return true;
-        }
+        return (input.equals(WIN) || input.equals(LOSE) || input.equals(DRAW));
+    }
 
-        return false;
+    public static String getMoveAsCommand(Move move) {
+        return move.getColumn() + " " + ((move.getType() == MoveType.POP) ? 0 + "" : 1 + "");
     }
 
     public static void main(String[] args) {
-        Main.setUpLogger();
         Main.setUpHeuristics(args);
         Main.init();
+        Main.setUpLogger();
         Main.makeMoves();
-
-        Communicator.getInstance().sendCmd("1 1");
-        String nextMove = Communicator.getInstance().getCmd();
-        logger.log(Level.INFO, nextMove);
     }
 }

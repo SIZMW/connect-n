@@ -12,6 +12,7 @@ public class GameState {
     private final BoardCell[][] boardState;
     private final int connectLength;
     private Player turn;
+    private boolean[] playerHasPopped;
 
     /**
      * Creates a GameState instance with a width, height, {@link Player} turn and connect length for winning.
@@ -23,6 +24,7 @@ public class GameState {
      */
     public GameState(int w, int h, Player turn, int connectLength) {
         boardState = new BoardCell[w][h];
+        playerHasPopped = new boolean[2];
         this.turn = turn;
         this.connectLength = connectLength;
 
@@ -43,10 +45,11 @@ public class GameState {
      * @param connectLength The number of consecutive pieces needed to win.
      * @param boardState    The board state to set for this game state.
      */
-    GameState(Player turn, int connectLength, BoardCell[][] boardState) {
+    GameState(Player turn, int connectLength, BoardCell[][] boardState, boolean[] playerHasPopped) {
         this.turn = turn;
         this.connectLength = connectLength;
         this.boardState = boardState;
+        this.playerHasPopped = playerHasPopped;
 
         // Reject boards that are not at least the width or height of their connect length
         if (getWidth() < connectLength && getHeight() < connectLength) {
@@ -71,6 +74,7 @@ public class GameState {
         boardState = new BoardCell[state.getWidth()][state.getHeight()];
         this.turn = state.getTurn();
         this.connectLength = state.connectLength;
+        this.playerHasPopped = state.playerHasPopped.clone();
 
         for (int i = 0; i < state.getWidth(); i++) {
             boardState[i] = state.boardState[i].clone();
@@ -148,6 +152,7 @@ public class GameState {
             case POP:
                 System.arraycopy(boardState[move.getColumn()], 0, boardState[move.getColumn()], 1, getHeight() - 1);
                 boardState[move.getColumn()][0] = BoardCell.NONE;
+                playerHasPopped[this.turn.ordinal()] = true;
                 break;
         }
 
@@ -169,7 +174,7 @@ public class GameState {
             case DROP:
                 return boardState[move.getColumn()][0] == BoardCell.NONE;
             case POP:
-                return boardState[move.getColumn()][getHeight() - 1] == turn.getAsBoardCell();
+                return !playerHasPopped[turn.ordinal()] && boardState[move.getColumn()][getHeight() - 1] == turn.getAsBoardCell();
             default:
                 return false;
         }

@@ -28,7 +28,7 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        }));
+        }), new boolean[] {false, false});
         Assert.assertEquals(BoardCell.NONE, state.get(0, 0));
         Assert.assertEquals(BoardCell.NONE, state.get(1, 0));
         Assert.assertEquals(BoardCell.MAX, state.get(1, 1));
@@ -46,7 +46,7 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        }));
+        }), new boolean[] {false, false});
         GameState state;
 
         state = original.clone();
@@ -57,7 +57,7 @@ public class GameStateTest {
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })), state);
+        }), new boolean[] {false, false}), state);
 
         state = original.clone();
         state.move(new Move(MoveType.DROP, 1));
@@ -67,7 +67,7 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })), state);
+        }), new boolean[] {false, false}), state);
 
         state = original.clone();
         state.move(new Move(MoveType.POP, 2));
@@ -77,7 +77,7 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX }
-        })), state);
+        }), new boolean[] {false, false}), state);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        }));
+        }), new boolean[] {false, false});
 
         Assert.assertFalse(state.isMoveValid(new Move(MoveType.DROP, -1)));
         Assert.assertTrue(state.isMoveValid(new Move(MoveType.DROP, 0)));
@@ -115,34 +115,34 @@ public class GameStateTest {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })).getWinner());
+        }), new boolean[] {false, false}).getWinner());
         Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })).getWinner());
+        }), new boolean[] {false, false}).getWinner());
         Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })).getWinner());
+        }), new boolean[] {false, false}).getWinner());
         Assert.assertEquals(GameWinner.MIN, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })).getWinner());
+        }), new boolean[] {false, false}).getWinner());
         Assert.assertEquals(GameWinner.TIE, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-        })).getWinner());
+        }), new boolean[] {false, false}).getWinner());
     }
 }
