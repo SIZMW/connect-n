@@ -159,7 +159,7 @@ public class Main {
         Move move;
         while (true) {
             if (currentGameState.getTurn() == Player.MAX) {
-                move = MinMax.getInstance().getNextBestMove(currentGameState, 5, Heuristic.getInstance()); //TODO: Add iterative deepening
+                move = MinMax.getInstance().getNextBestMove(currentGameState, 5, Heuristic.getInstance());
                 Communicator.getInstance().sendCmd(Main.getMoveAsCommand(move));
                 logger.log(Level.INFO, "Player " + playerNumber + " move: " + move.toString());
             }

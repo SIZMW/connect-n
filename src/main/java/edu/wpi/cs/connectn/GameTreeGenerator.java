@@ -40,6 +40,8 @@ public class GameTreeGenerator {
      */
     private static class ValidMoveIterator implements Iterator<Move> {
 
+        // TODO: move ordering
+
         private final GameState root;
         private int currMoveType;
         private int currColumn;

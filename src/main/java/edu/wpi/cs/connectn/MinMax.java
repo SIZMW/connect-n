@@ -25,6 +25,57 @@ public class MinMax {
         return instance;
     }
 
+    public Move getNextBestMove(GameState state, int timeLimit, Function<GameState, Double> heuristic) {
+        long moveEndTime = System.currentTimeMillis() + timeLimit * 1000;
+        Move bestMove = null;
+        depthLoop:
+        for (int currDepth = 1; ; currDepth++) {
+            FindMove moveFinder = new FindMove(state.clone(), currDepth, heuristic);
+            moveFinder.start();
+            while (true) {
+                try {
+                    Thread.sleep(1);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (System.currentTimeMillis() > moveEndTime - 10) {
+                    moveFinder.stop();
+                    break depthLoop;
+                }
+                if (!moveFinder.isAlive()) {
+                    bestMove = moveFinder.getBestMove();
+                    break;
+                }
+            }
+        }
+        return bestMove;
+    }
+
+    private class FindMove extends Thread {
+
+        private final GameState state;
+        private final int depth;
+        private final Function<GameState, Double> heuristic;
+        private Move bestMove;
+
+        public FindMove(GameState state, int depth, Function<GameState, Double> heuristic) {
+            this.state = state;
+            this.depth = depth;
+            this.heuristic = heuristic;
+            bestMove = null;
+        }
+
+        public Move getBestMove() {
+            return bestMove;
+        }
+
+        @Override
+        public void run() {
+            bestMove = findMoveAtDepth(state, depth, heuristic);
+        }
+    }
+
     /**
      * Gets the next best move based on the given heuristic
      *
@@ -33,7 +84,7 @@ public class MinMax {
      * @param heuristic The heuristic function to use for scoring states.
      * @return The best move to take for the current player.
      */
-    public Move getNextBestMove(GameState state, int depth, Function<GameState, Double> heuristic) {
+    private Move findMoveAtDepth(GameState state, int depth, Function<GameState, Double> heuristic) {
         if (depth <= 0) throw new IllegalArgumentException("depth must be positive");
         MinMaxNode subNode = new MinMaxNode(state);
         setScore(subNode, depth, heuristic);
@@ -63,6 +114,7 @@ public class MinMax {
                 GameState newState = node.getState().clone();
                 newState.move(move);
 
+                // TODO: alpha-beta pruning
                 MinMaxNode subNode = new MinMaxNode(newState);
                 setScore(subNode, depth - 1, heuristic);
 

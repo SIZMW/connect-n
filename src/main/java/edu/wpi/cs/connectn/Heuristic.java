@@ -46,15 +46,14 @@ public class Heuristic implements Function<GameState, Double> {
      */
     @Override
     public Double apply(GameState gameState) {
-        GameStateEvaluator instance = GameStateEvaluator.getInstance();
-        Map<Integer, Set<BoardFeature>> featuresMap = instance.getFeatures(gameState);
+        Map<Integer, Set<BoardFeature>> featuresMap = GameStateEvaluator.getInstance().getFeatures(gameState);
 
         int connectLength = gameState.getConnectLength();
         double heuristicValue = 0.0;
 
-        for (Integer i : featuresMap.keySet()) {
+        for (int i : featuresMap.keySet()) {
             int featureCount = featuresMap.get(i).size();
-            if ((i.equals(connectLength)) && (featureCount > 0)) {
+            if ((i == connectLength) && (featureCount > 0)) {
                 heuristicValue = Double.POSITIVE_INFINITY;
                 break;
             }
