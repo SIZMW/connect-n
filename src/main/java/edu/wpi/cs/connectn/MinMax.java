@@ -28,9 +28,10 @@ public class MinMax {
         return instance;
     }
 
-    int m = 0;
+    private int moveNumber = 0;
+
     public Move getNextBestMove(GameState state, int timeLimit, Function<GameState, Double> heuristic) {
-        logger.info("Move " + m++);
+        logger.info("Move " + moveNumber++);
         long moveEndTime = System.currentTimeMillis() + timeLimit * 1000;
         Move bestMove = null;
         depthLoop:
