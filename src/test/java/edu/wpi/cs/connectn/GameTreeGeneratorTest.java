@@ -83,21 +83,106 @@ public class GameTreeGeneratorTest {
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-                        }), new boolean[] { false, false }),
+                        }), new boolean[] { false, true }),
                         new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
                                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MAX, BoardCell.MAX },
                                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX }
-                        }), new boolean[] { false, false }),
+                        }), new boolean[] { false, true }),
                         new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
                                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN },
                                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
-                        }), new boolean[] { false, false })
+                        }), new boolean[] { false, true })
+                },
+                start,
+                GameTreeGenerator.getInstance().generateValidMoves(start));
+
+        /*
+        9 9 9 9 9 9 9
+        9 9 9 9 9 9 9
+        9 9 9 9 9 9 9
+        2 2 9 9 9 9 9
+        2 1 1 9 9 9 9
+        2 1 1 9 9 9 9
+         */
+        start = new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
+                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+        }), new boolean[] { false, false });
+        assertMoves(new GameState[] {
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX }
+                        }), new boolean[] { false, false }),
+                        new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
+                                { BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE }
+                        }), new boolean[] { false, true }),
                 },
                 start,
                 GameTreeGenerator.getInstance().generateValidMoves(start));

@@ -75,6 +75,7 @@ public class Main {
             logger.addHandler(loggingFileHandler);
             logger.addHandler(loggingConsoleHandler);
 
+            System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tb %1$td, %1$tY %1$tl:%1$tM:%1$tS %1$Tp %2$s %4$s: %5$s%n");
             SimpleFormatter simpleFormatter = new SimpleFormatter();
             loggingFileHandler.setFormatter(simpleFormatter);
 

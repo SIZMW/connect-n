@@ -24,7 +24,12 @@ public class BoardFeature {
      */
     public BoardFeature(BoardPos... positions) {
         this.positions = positions;
-        this.length = positions.length;
+
+        int length = 0;
+        for (BoardPos position : positions) {
+            if (position.getCell() == BoardCell.MAX) length++;
+        }
+        this.length = length;
 
         int dx = 0, dy = 0;
         if (positions.length > 1) {

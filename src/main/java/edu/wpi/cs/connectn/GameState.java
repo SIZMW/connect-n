@@ -282,7 +282,8 @@ public class GameState {
         return other != null && (other == this ||
                 this.connectLength == other.connectLength &&
                         this.turn == other.turn &&
-                        Arrays.deepEquals(this.boardState, other.boardState));
+                        Arrays.deepEquals(this.boardState, other.boardState) &&
+                        Arrays.equals(this.playerHasPopped, other.playerHasPopped));
     }
 
     /**
