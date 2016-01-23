@@ -31,6 +31,7 @@ public class Heuristic implements Function<GameState, Double> {
 
     /**
      * Sets the weight function to use for the heuristic.
+     *
      * @param function The function based on the board feature length and the connect length of the game.
      */
     public void setWeightFunction(BiFunction<Integer, Integer, Double> function) {
@@ -68,7 +69,7 @@ public class Heuristic implements Function<GameState, Double> {
      * Calculates the weight of the board feature based on its length, the number of that board feature and the connect length of the board.
      *
      * @param featureLength The number of pieces that make up this feature.
-     * @param count The number of the board feature found in the game state.
+     * @param count         The number of the board feature found in the game state.
      * @param connectLength The number of pieces in a row needed to win.
      * @return a Double
      */

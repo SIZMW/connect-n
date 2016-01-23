@@ -23,7 +23,7 @@ public class Main {
         int ties = 0;
         try {
             for (int i = 0; i < n; i++) {
-                System.out.println("=========== GAME " + (i+1) + "/" + n + " ===========");
+                System.out.println("=========== GAME " + (i + 1) + "/" + n + " ===========");
                 Process ref = Runtime.getRuntime().exec("java -jar \"" + refPath + "\" \"" + p1 + "\" \"" + p2 + "\" " + refConfig);
                 InputStream err = ref.getErrorStream();
                 InputStream in = ref.getInputStream();

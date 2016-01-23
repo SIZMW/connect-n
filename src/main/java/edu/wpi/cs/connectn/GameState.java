@@ -59,6 +59,7 @@ public class GameState {
 
     /**
      * Returns the connect length for this board that is needed in order to win.
+     *
      * @return an integer
      */
     public int getConnectLength() {

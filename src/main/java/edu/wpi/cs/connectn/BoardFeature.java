@@ -22,7 +22,7 @@ public class BoardFeature {
             dy = positions[1].getY() - positions[0].getY();
 
             if (dx != 0) dx /= dx < 0 ? -dx : dx;
-            if (dy != 0) dy /= dy < 0 ? -dy:dy;
+            if (dy != 0) dy /= dy < 0 ? -dy : dy;
 
             if (dx < 0 || (dx == 0 && dy < 0)) {
                 dx = -dx;
