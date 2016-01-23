@@ -3,6 +3,11 @@ package edu.wpi.cs.connectn;
 
 import java.util.Arrays;
 
+/**
+ * This class represents the board feature that can be analyzed for the heuristic function.
+ *
+ * @author Daniel Beckwith
+ */
 public class BoardFeature {
 
     public static final int[] VALID_DIRS = { 1, -1, 1, 0, 1, 1, 0, 1 };
@@ -12,6 +17,11 @@ public class BoardFeature {
     private final int dx;
     private final int dy;
 
+    /**
+     * Creates a BoardFeature instance with the specified positions.
+     *
+     * @param positions The list of positions for this board feature.
+     */
     public BoardFeature(BoardPos... positions) {
         this.positions = positions;
         this.length = positions.length;
@@ -34,22 +44,47 @@ public class BoardFeature {
         this.dy = dy;
     }
 
+    /**
+     * Returns the list of board positions for this feature.
+     *
+     * @return an array of {@link BoardPos}
+     */
     public BoardPos[] getPositions() {
         return positions;
     }
 
+    /**
+     * Returns the horizontal change in the board positions across the entire board feature.
+     *
+     * @return an integer
+     */
     public int getDx() {
         return dx;
     }
 
+    /**
+     * Returns the vertical change in the board positions across the entire board feature.
+     *
+     * @return an integer
+     */
     public int getDy() {
         return dy;
     }
 
+    /**
+     * Returns the number of pieces involved in this board feature.
+     *
+     * @return
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * Returns a string representation of the board feature.
+     *
+     * @return a String
+     */
     @Override
     public String toString() {
         return "BoardFeature{" +
@@ -57,6 +92,12 @@ public class BoardFeature {
                 '}';
     }
 
+    /**
+     * Returns whether this object is "equal" to the specified object.
+     *
+     * @param o The object to compare to this object.
+     * @return a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,9 +109,13 @@ public class BoardFeature {
         if (dx != that.dx) return false;
         if (dy != that.dy) return false;
         return Arrays.deepEquals(positions, that.positions);
-
     }
 
+    /**
+     * Returns a hash code value for the object. This method is supported for the benefit of hash tables such as those provided by {@link java.util.HashMap}.
+     *
+     * @return an integer
+     */
     @Override
     public int hashCode() {
         int result = Arrays.hashCode(positions);
