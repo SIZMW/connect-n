@@ -1,6 +1,8 @@
 package edu.wpi.cs.connectn;
 
 
+import java.util.Arrays;
+
 public class BoardFeature {
 
     public static final int[] VALID_DIRS = { 1, -1, 1, 0, 1, 1, 0, 1 };
@@ -19,8 +21,13 @@ public class BoardFeature {
             dx = positions[1].getX() - positions[0].getX();
             dy = positions[1].getY() - positions[0].getY();
 
-            if (dy < 0 && dx <= 0) dy = -dy;
-            if (dx < 0) dx = -dx;
+            if (dx != 0) dx /= dx < 0 ? -dx : dx;
+            if (dy != 0) dy /= dy < 0 ? -dy:dy;
+
+            if (dx < 0 || (dx == 0 && dy < 0)) {
+                dx = -dx;
+                dy = -dy;
+            }
         }
 
         this.dx = dx;
@@ -41,5 +48,35 @@ public class BoardFeature {
 
     public int getLength() {
         return length;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardFeature{" +
+                "positions=" + Arrays.toString(positions) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BoardFeature)) return false;
+
+        BoardFeature that = (BoardFeature) o;
+
+        if (length != that.length) return false;
+        if (dx != that.dx) return false;
+        if (dy != that.dy) return false;
+        return Arrays.deepEquals(positions, that.positions);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(positions);
+        result = 31 * result + length;
+        result = 31 * result + dx;
+        result = 31 * result + dy;
+        return result;
     }
 }

@@ -120,6 +120,9 @@ public class GameState {
      * @return a {@link BoardCell}
      */
     public BoardCell get(int x, int y) {
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()) {
+            return BoardCell.NONE;
+        }
         return boardState[x][y];
     }
 

@@ -26,4 +26,34 @@ public class BoardPos {
     public BoardCell getCell() {
         return cell;
     }
+
+    @Override
+    public String toString() {
+        return "BoardPos{" +
+                "x=" + x +
+                ", y=" + y +
+                ", cell=" + cell +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BoardPos)) return false;
+
+        BoardPos boardPos = (BoardPos) o;
+
+        if (x != boardPos.x) return false;
+        if (y != boardPos.y) return false;
+        return cell == boardPos.cell;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        result = 31 * result + (cell != null ? cell.hashCode() : 0);
+        return result;
+    }
 }

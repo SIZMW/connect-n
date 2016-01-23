@@ -1,9 +1,9 @@
 package edu.wpi.cs.connectn;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class GameStateEvaluator {
 
@@ -15,13 +15,13 @@ public class GameStateEvaluator {
 
     private GameStateEvaluator() {}
 
-    public Map<Integer, Collection<BoardFeature>> getFeatures(GameState state) {
-        Map<Integer, Collection<BoardFeature>> features = new HashMap<>();
+    public Map<Integer, Set<BoardFeature>> getFeatures(GameState state) {
+        Map<Integer, Set<BoardFeature>> features = new HashMap<>();
         int n = state.getConnectLength();
 
         if (n >= 1) {
             // generate all features of length one (individual pieces)
-            features.put(1, new ArrayList<>());
+            features.put(1, new HashSet<>());
             for (int x = 0; x < state.getWidth(); x++) {
                 for (int y = 0; y < state.getHeight(); y++) {
                     BoardCell cell = state.get(x, y);
@@ -33,21 +33,27 @@ public class GameStateEvaluator {
 
             if (n >= 2) {
                 // generate all features of length two from the individual pieces
-                features.put(2, new ArrayList<>());
+                features.put(2, new HashSet<>());
                 for (BoardFeature singleFeature : features.get(1)) {
+//                    System.out.println("singleFeature = " + singleFeature);
                     for (int i = 0; i < BoardFeature.VALID_DIRS.length / 2; i++) {
                         BoardPos startPos = singleFeature.getPositions()[0];
                         int x = startPos.getX() + BoardFeature.VALID_DIRS[i];
                         int y = startPos.getY() + BoardFeature.VALID_DIRS[i + 1];
+//                        System.out.println("x = " + x);
+//                        System.out.println("y = " + y);
                         BoardCell nextCell = state.get(x, y);
+//                        System.out.println("nextCell = " + nextCell);
                         if (nextCell.equals(BoardCell.MAX)) {
-                            features.get(2).add(new BoardFeature(startPos, new BoardPos(x, y, nextCell)));
+                            BoardFeature f = new BoardFeature(startPos, new BoardPos(x, y, nextCell));
+                            features.get(2).add(f);
+//                            System.out.println("f = " + f);
                         }
                     }
                 }
 
                 for (int currLen = 3; currLen <= n; currLen++) {
-                    features.put(3, new ArrayList<>());
+                    features.put(3, new HashSet<>());
                     for (BoardFeature feature : features.get(currLen - 1)) {
                         BoardPos lineEnd = feature.getPositions()[feature.getLength() - 1];
                         int x = lineEnd.getX() + feature.getDx();

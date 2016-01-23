@@ -1,7 +1,7 @@
 package edu.wpi.cs.connectn;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -46,7 +46,7 @@ public class Heuristic implements Function<GameState, Double> {
     @Override
     public Double apply(GameState gameState) {
         GameStateEvaluator instance = GameStateEvaluator.getInstance();
-        Map<Integer, Collection<BoardFeature>> featuresMap = instance.getFeatures(gameState);
+        Map<Integer, Set<BoardFeature>> featuresMap = instance.getFeatures(gameState);
 
         int connectLength = gameState.getConnectLength();
         double heuristicValue = 0.0;

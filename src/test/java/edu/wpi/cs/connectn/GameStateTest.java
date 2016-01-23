@@ -10,16 +10,6 @@ import org.junit.Test;
  */
 public class GameStateTest {
 
-    private BoardCell[][] fixBoard(BoardCell[][] board) {
-        BoardCell[][] newBoard = new BoardCell[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                newBoard[j][i] = board[i][j];
-            }
-        }
-        return newBoard;
-    }
-
     @Test
     public void testSwitchTurn() throws Exception {
         GameState state = new GameState(10, 10, Player.MAX, 4);
@@ -32,7 +22,7 @@ public class GameStateTest {
 
     @Test
     public void testGet() throws Exception {
-        GameState state = new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        GameState state = new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
@@ -50,7 +40,7 @@ public class GameStateTest {
 
     @Test
     public void testMove() throws Exception {
-        GameState original = new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        GameState original = new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
@@ -61,7 +51,7 @@ public class GameStateTest {
 
         state = original.clone();
         state.move(new Move(MoveType.DROP, 0));
-        Assert.assertEquals(new GameState(Player.MIN, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
@@ -71,7 +61,7 @@ public class GameStateTest {
 
         state = original.clone();
         state.move(new Move(MoveType.DROP, 1));
-        Assert.assertEquals(new GameState(Player.MIN, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
@@ -81,7 +71,7 @@ public class GameStateTest {
 
         state = original.clone();
         state.move(new Move(MoveType.POP, 2));
-        Assert.assertEquals(new GameState(Player.MIN, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(new GameState(Player.MIN, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MAX, BoardCell.MAX },
@@ -92,7 +82,7 @@ public class GameStateTest {
 
     @Test
     public void testIsMoveValid() throws Exception {
-        GameState state = new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        GameState state = new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
@@ -119,35 +109,35 @@ public class GameStateTest {
 
     @Test
     public void testGetWinner() throws Exception {
-        Assert.assertEquals(GameWinner.NONE, new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(GameWinner.NONE, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MIN, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
         })).getWinner());
-        Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
         })).getWinner());
-        Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(GameWinner.MAX, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
         })).getWinner());
-        Assert.assertEquals(GameWinner.MIN, new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(GameWinner.MIN, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MIN },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.MAX, BoardCell.MIN, BoardCell.MAX, BoardCell.MIN, BoardCell.MAX }
         })).getWinner());
-        Assert.assertEquals(GameWinner.TIE, new GameState(Player.MAX, 4, fixBoard(new BoardCell[][] {
+        Assert.assertEquals(GameWinner.TIE, new GameState(Player.MAX, 4, TestUtils.fixBoard(new BoardCell[][] {
                 { BoardCell.NONE, BoardCell.NONE, BoardCell.NONE, BoardCell.MAX, BoardCell.NONE },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.NONE, BoardCell.MIN, BoardCell.MAX },
                 { BoardCell.NONE, BoardCell.MAX, BoardCell.MIN, BoardCell.MIN, BoardCell.MAX },
