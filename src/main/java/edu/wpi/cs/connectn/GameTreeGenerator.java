@@ -61,7 +61,7 @@ public class GameTreeGenerator {
             currColumn = 0;
             currMove = null;
 
-            columnOrder = new int[root.getConnectLength()];
+            columnOrder = new int[root.getWidth()];
             int mid = columnOrder.length / 2;
 
             for (int i = 0; i < columnOrder.length; i++) {
