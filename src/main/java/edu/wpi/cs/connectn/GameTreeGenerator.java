@@ -45,11 +45,6 @@ public class GameTreeGenerator {
         private int currColumn;
         private Move currMove;
 
-        // Move ordering
-        private int[] columnOrder;
-        private int addVal = 0;
-        private int addSign = -1;
-
         /**
          * Creates a {@link ValidMoveIterator} instance with the specified root {@link GameState}.
          *
@@ -61,29 +56,7 @@ public class GameTreeGenerator {
             currColumn = 0;
             currMove = null;
 
-            columnOrder = new int[root.getWidth()];
-            int mid = columnOrder.length / 2;
-
-            for (int i = 0; i < columnOrder.length; i++) {
-                mid = this.getNextColum(mid);
-                columnOrder[i] = mid;
-            }
-
             nextMove();
-        }
-
-        /**
-         * Generates the next column from the middle column.
-         *
-         * @param currCol The column to use to generate the next outer column from the middle.
-         * @return an integer
-         */
-        private int getNextColum(int currCol) {
-            int next = currCol + addVal;
-            addVal *= -1;
-            addVal += addSign;
-            addSign *= -1;
-            return next;
         }
 
         /**
@@ -91,28 +64,16 @@ public class GameTreeGenerator {
          */
         private void nextMove() {
             do {
-//                if (currMoveType >= MoveType.values().length || currColumn >= root.getWidth()) {
-//                    currMove = null;
-//                    break;
-//                }
-
-                // Move ordering to center on middle
-                if (currMoveType >= MoveType.values().length || currColumn >= columnOrder.length) {
+                if (currMoveType >= MoveType.values().length || currColumn >= root.getWidth()) {
                     currMove = null;
                     break;
                 }
 
-                currMove = new Move(MoveType.values()[currMoveType], columnOrder[currColumn++]);
-                if (currColumn >= columnOrder.length) {
+                currMove = new Move(MoveType.values()[currMoveType], currColumn++);
+                if (currColumn >= root.getWidth()) {
                     currColumn = 0;
                     currMoveType++;
                 }
-
-//                currMove = new Move(MoveType.values()[currMoveType], currColumn++);
-//                if (currColumn >= root.getWidth()) {
-//                    currColumn = 0;
-//                    currMoveType++;
-//                }
             }
             while (!root.isMoveValid(currMove));
         }
