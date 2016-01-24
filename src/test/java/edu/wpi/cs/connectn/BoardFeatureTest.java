@@ -3,9 +3,6 @@ package edu.wpi.cs.connectn;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by djbsn_000 on 1/22/2016.
- */
 public class BoardFeatureTest {
 
     @Test

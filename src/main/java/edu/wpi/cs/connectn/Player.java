@@ -25,4 +25,13 @@ public enum Player {
     public GameWinner getAsGameWinner() {
         return GameWinner.valueOf(this.toString());
     }
+
+    /**
+     * Returns the opponent of this player.
+     *
+     * @return a {@link Player}
+     */
+    public Player getOpponent() {
+        return (this == Player.MAX) ? Player.MIN : Player.MAX;
+    }
 }

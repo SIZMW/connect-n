@@ -87,17 +87,7 @@ public class GameState {
      * Switches the player whose turn it is to play.
      */
     public void switchTurn() {
-        turn = this.getOpponent(this.turn);
-    }
-
-    /**
-     * Returns the opponent of the player whose turn it currently is.
-     *
-     * @param p The {@link Player} whose turn it currently is.
-     * @return a {@link Player}
-     */
-    private Player getOpponent(Player p) {
-        return (p == Player.MAX) ? Player.MIN : Player.MAX;
+        turn = turn.getOpponent();
     }
 
     /**
@@ -160,7 +150,7 @@ public class GameState {
                 break;
         }
 
-        this.turn = getOpponent(this.turn);
+        this.turn = this.turn.getOpponent();
     }
 
     /**
@@ -190,7 +180,7 @@ public class GameState {
      * @return a {@link GameWinner}
      */
     public GameWinner getWinner() {
-        Player otherPlayer = this.getOpponent(this.turn);
+        Player otherPlayer = this.turn.getOpponent();
         boolean player = false;
         boolean other = false;
 

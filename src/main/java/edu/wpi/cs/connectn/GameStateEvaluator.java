@@ -34,7 +34,7 @@ public class GameStateEvaluator {
      * @param state The game state to evaluate for features.
      * @return a Map<Integer, Set<BoardFeature>> of feature length mapped to a collection of all the features of that lnegth.
      */
-    public Map<Integer, Set<BoardFeature>> getFeatures(GameState state) {
+    public Map<Integer, Set<BoardFeature>> getFeatures(GameState state, Player player) {
         Map<Integer, Set<BoardFeature>> features = new HashMap<>();
         int n = state.getConnectLength();
 
@@ -44,13 +44,13 @@ public class GameStateEvaluator {
 
             for (int x = 0; x < state.getWidth() - (dx == 0 ? 0 : dx * n - 1); x++) {
                 yLoop:
-                for (int y = (dy < 0 ? n : 0); y < state.getHeight() - (dy <= 0 ? 0 : dy * n - 1); y++) {
+                for (int y = (dy < 0 ? n - 1 : 0); y < state.getHeight() - (dy <= 0 ? 0 : dy * n - 1); y++) {
                     BoardPos[] positions = new BoardPos[n];
                     for (int i = 0; i < n; i++) {
                         int xx = x + dx * i;
                         int yy = y + dy * i;
                         BoardCell cell = state.get(xx, yy);
-                        if (cell == BoardCell.MIN) {
+                        if (cell == player.getOpponent().getAsBoardCell()) {
                             continue yLoop;
                         }
                         positions[i] = new BoardPos(xx, yy, cell);

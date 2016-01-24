@@ -46,22 +46,25 @@ public class Heuristic implements Function<GameState, Double> {
      */
     @Override
     public Double apply(GameState gameState) {
-        Map<Integer, Set<BoardFeature>> featuresMap = GameStateEvaluator.getInstance().getFeatures(gameState);
+        return calculateScoreForPlayer(gameState, Player.MAX) - calculateScoreForPlayer(gameState, Player.MIN);
+    }
+
+    private double calculateScoreForPlayer(GameState gameState, Player player) {
+        Map<Integer, Set<BoardFeature>> featuresMap = GameStateEvaluator.getInstance().getFeatures(gameState, player);
 
         int connectLength = gameState.getConnectLength();
         double heuristicValue = 0.0;
 
         for (int i : featuresMap.keySet()) {
-            int featureCount = featuresMap.get(i).size();
+            int featureCount = featuresMap.containsKey(i) ? featuresMap.get(i).size() : 0;
             if ((i == connectLength) && (featureCount > 0)) {
-                heuristicValue = Double.POSITIVE_INFINITY;
-                break;
+                return Double.MAX_VALUE;
             }
 
             heuristicValue += this.calculateWeightedFeatureValue(i, featureCount, connectLength);
         }
 
-        return (gameState.getTurn().equals(Player.MAX)) ? heuristicValue : heuristicValue * -1;
+        return heuristicValue;
     }
 
     /**

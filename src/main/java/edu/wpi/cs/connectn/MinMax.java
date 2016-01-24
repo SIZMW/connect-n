@@ -109,7 +109,7 @@ public class MinMax {
      * @param heuristic The {@link Function} used to determine the states' scores.
      */
     private void setScore(MinMaxNode node, int depth, Function<GameState, Double> heuristic) {
-        logger.info("[" + depth + "] Finding score for " + node.getState());
+//        logger.info("[" + depth + "] Finding score for " + node.getState());
         if (depth != 0) {
             // Determine which player we are ranking states by
             boolean max = node.getState().getTurn() == Player.MAX;
@@ -119,7 +119,7 @@ public class MinMax {
             else {
                 node.setScore(Double.POSITIVE_INFINITY);
             }
-            logger.info("[" + depth + "] " + (max ? "max" : "min"));
+//            logger.info("[" + depth + "] " + (max ? "max" : "min"));
 
             // For each move we can do on this state, find the children game states that can be reached
             for (Move move : GameTreeGenerator.getInstance().generateValidMoves(node.getState())) {
@@ -132,7 +132,7 @@ public class MinMax {
 
                 // Get the child node's score and compare it to this node's score
                 if ((max && subNode.getScore() > node.getScore()) || (!max && subNode.getScore() < node.getScore())) {
-                    logger.info("[" + depth + "] found a better move: " + move + " (" + subNode.getScore() + ")");
+//                    logger.info("[" + depth + "] found a better move: " + move + " (" + subNode.getScore() + ")");
                     node.setScore(subNode.getScore());
                     node.setMove(move);
                 }
