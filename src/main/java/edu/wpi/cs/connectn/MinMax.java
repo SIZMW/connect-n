@@ -149,7 +149,7 @@ public class MinMax {
             for (Move move : GameTreeGenerator.getInstance().generateValidMoves(node.getState())) {
                 GameState newState = node.getState().clone();
                 newState.move(move);
-                
+
                 MinMaxNode subNode = new MinMaxNode(newState);
                 setScore(subNode, depth - 1, heuristic, alpha, beta);
 
