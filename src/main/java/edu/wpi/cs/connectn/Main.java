@@ -158,7 +158,7 @@ public class Main {
         Move move;
         while (true) {
             if (currentGameState.getTurn() == Player.MAX) {
-                move = MinMax.getInstance().getNextBestMove(currentGameState, 5, Heuristic.getInstance());
+                move = MinMax.getInstance().getNextBestMove(currentGameState, timelimit, Heuristic.getInstance());
                 Communicator.getInstance().sendCmd(Main.getMoveAsCommand(move));
                 logger.log(Level.INFO, "Player " + playerNumber + " move: " + move.toString());
             }
