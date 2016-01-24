@@ -1,8 +1,8 @@
 package edu.wpi.cs.connectn;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.logging.ConsoleHandler;
@@ -41,12 +41,17 @@ public class Main {
     /**
      * Defines the potential heuristic weighting functions to use.
      */
-    private static List<BiFunction<Integer, Integer, Double>> heuristicFunctions = Arrays.asList(
-            (l, n) -> 1d,
-            (l, n) -> (double) l,
-            (l, n) -> l * l / (double) n,
-            (l, n) -> (double) l * l * n
-    );
+    private static final Map<String, BiFunction<Integer, Integer, Double>> heuristicFunctions;
+
+    static {
+        heuristicFunctions = new HashMap<>();
+        heuristicFunctions.put("const", (l, n) -> 1d);
+        heuristicFunctions.put("linear", (l, n) -> (double) l);
+        heuristicFunctions.put("square-inv-n", (l, n) -> l * l / (double) n);
+        heuristicFunctions.put("square-n", (l, n) -> (double) l * l * n);
+        heuristicFunctions.put("cube", (l, n) -> (double) l * l * l);
+        heuristicFunctions.put("quad", (l, n) -> (double) l * l * l * l);
+    }
 
     /**
      * Sets up the file logging for debugging purposes.
@@ -92,16 +97,9 @@ public class Main {
      * @param args The command line arguments.
      */
     private static void setUpHeuristics(String args[]) {
-        int heuristicOption = 0;
-        if (args.length > 0) {
-            try {
-                heuristicOption = Integer.parseInt(args[0]);
-            }
-            catch (NumberFormatException ignored) {}
-
-            if (heuristicOption >= heuristicFunctions.size()) {
-                heuristicOption = 0;
-            }
+        String heuristicOption = "const";
+        if (args.length > 0 && heuristicFunctions.containsKey(args[0])) {
+            heuristicOption = args[0];
         }
 
         Heuristic.getInstance().setWeightFunction(heuristicFunctions.get(heuristicOption));

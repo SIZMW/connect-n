@@ -46,7 +46,12 @@ public class Heuristic implements Function<GameState, Double> {
      */
     @Override
     public Double apply(GameState gameState) {
-        return calculateScoreForPlayer(gameState, Player.MAX) - calculateScoreForPlayer(gameState, Player.MIN);
+        double maxScore = calculateScoreForPlayer(gameState, Player.MAX);
+        double minScore = calculateScoreForPlayer(gameState, Player.MIN);
+        if (maxScore == Double.POSITIVE_INFINITY && minScore == Double.POSITIVE_INFINITY) {
+            return 0d;
+        }
+        return maxScore - minScore;
     }
 
     private double calculateScoreForPlayer(GameState gameState, Player player) {
@@ -55,27 +60,15 @@ public class Heuristic implements Function<GameState, Double> {
         int connectLength = gameState.getConnectLength();
         double heuristicValue = 0.0;
 
-        for (int i : featuresMap.keySet()) {
-            int featureCount = featuresMap.containsKey(i) ? featuresMap.get(i).size() : 0;
-            if ((i == connectLength) && (featureCount > 0)) {
-                return Double.MAX_VALUE;
+        for (int featureLength : featuresMap.keySet()) {
+            int featureCount = featuresMap.get(featureLength).size();
+            if ((featureLength == connectLength) && (featureCount > 0)) {
+                return Double.POSITIVE_INFINITY;
             }
 
-            heuristicValue += this.calculateWeightedFeatureValue(i, featureCount, connectLength);
+            heuristicValue += this.weightFunction.apply(featureLength, connectLength) * featureCount;
         }
 
         return heuristicValue;
-    }
-
-    /**
-     * Calculates the weight of the board feature based on its length, the number of that board feature and the connect length of the board.
-     *
-     * @param featureLength The number of pieces that make up this feature.
-     * @param count         The number of the board feature found in the game state.
-     * @param connectLength The number of pieces in a row needed to win.
-     * @return a Double
-     */
-    protected Double calculateWeightedFeatureValue(int featureLength, int count, int connectLength) {
-        return this.weightFunction.apply(featureLength, connectLength) * count;
     }
 }

@@ -14,7 +14,7 @@ public enum Player {
      * @return a {@link BoardCell}
      */
     public BoardCell getAsBoardCell() {
-        return BoardCell.valueOf(this.toString());
+        return BoardCell.valueOf(this.name());
     }
 
     /**
@@ -23,7 +23,7 @@ public enum Player {
      * @return a {@link GameWinner}
      */
     public GameWinner getAsGameWinner() {
-        return GameWinner.valueOf(this.toString());
+        return GameWinner.valueOf(this.name());
     }
 
     /**

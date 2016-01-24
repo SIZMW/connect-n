@@ -119,10 +119,11 @@ public class MinMax {
      * @param heuristic The heuristic function to use for scoring states.
      * @return The best move to take for the current player.
      */
-    private Move findMoveAtDepth(GameState state, int depth, Function<GameState, Double> heuristic) {
+    public Move findMoveAtDepth(GameState state, int depth, Function<GameState, Double> heuristic) {
         if (depth <= 0) throw new IllegalArgumentException("depth must be positive");
         MinMaxNode subNode = new MinMaxNode(state);
         setScore(subNode, depth, heuristic, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        logger.info("node score: " + subNode.getScore());
         return subNode.getMove();
     }
 
@@ -136,14 +137,14 @@ public class MinMax {
      * @param beta      The beta value for alpha-beta pruning.
      */
     private void setScore(MinMaxNode node, int depth, Function<GameState, Double> heuristic, double alpha, double beta) {
-//        logger.info("[" + depth + "] Finding score for " + node.getState());
+//        System.out.println("[" + depth + "] Finding score for " + node.getState() + ", alpha: " + alpha + ", beta: " + beta);
         if (depth != 0) {
             // Determine which player we are ranking states by
             boolean max = node.getState().getTurn() == Player.MAX;
 
             node.setScore((max) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY);
 
-//            logger.info("[" + depth + "] " + (max ? "max" : "min"));
+//            System.out.println("[" + depth + "] " + (max ? "max" : "min"));
 
             // For each move we can do on this state, find the children game states that can be reached
             for (Move move : GameTreeGenerator.getInstance().generateValidMoves(node.getState())) {
@@ -155,19 +156,20 @@ public class MinMax {
 
                 // Get the child node's score and compare it to this node's score
                 if (max ? subNode.getScore() > node.getScore() : subNode.getScore() < node.getScore()) {
-//                    logger.info("[" + depth + "] found a better move: " + move + " (" + subNode.getScore() + ")");
+//                    System.out.println("[" + depth + "] found a better move: " + move + " (" + subNode.getScore() + ")");
                     node.setScore(subNode.getScore());
                     node.setMove(move);
 
-                    if (max ? node.getScore() <= alpha : node.getScore() >= beta) {
+                    if (max ? node.getScore() >= beta : node.getScore() <= alpha) {
+//                        System.out.println("[" + depth + "] pruned");
                         break;
                     }
 
                     if (max) {
-                        alpha = (node.getScore() >= alpha) ? node.getScore() : alpha;
+                        alpha = Math.max(alpha, node.getScore());
                     }
                     else {
-                        beta = (node.getScore() <= beta) ? node.getScore() : beta;
+                        beta = Math.min(beta, node.getScore());
                     }
                 }
             }

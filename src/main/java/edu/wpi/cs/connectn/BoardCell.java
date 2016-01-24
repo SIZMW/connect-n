@@ -36,6 +36,6 @@ public enum BoardCell {
      * @return a {@link GameWinner}
      */
     public GameWinner getAsGameWinner() {
-        return GameWinner.valueOf(this.toString());
+        return GameWinner.valueOf(this.name());
     }
 }

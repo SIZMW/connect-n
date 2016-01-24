@@ -48,4 +48,23 @@ public class Move {
     public String toString() {
         return type + " move in column " + column;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Move)) return false;
+
+        Move move = (Move) o;
+
+        if (column != move.column) return false;
+        return type == move.type;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + column;
+        return result;
+    }
 }

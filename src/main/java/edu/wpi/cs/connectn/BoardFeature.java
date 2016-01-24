@@ -27,7 +27,7 @@ public class BoardFeature {
 
         int length = 0;
         for (BoardPos position : positions) {
-            if (position.getCell() == BoardCell.MAX) length++;
+            if (position.getCell() != BoardCell.NONE) length++;
         }
         this.length = length;
 
