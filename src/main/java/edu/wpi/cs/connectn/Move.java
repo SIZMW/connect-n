@@ -49,6 +49,12 @@ public class Move {
         return type + " move in column " + column;
     }
 
+    /**
+     * Returns whether this object is "equal" to the specified object.
+     *
+     * @param o The object to compare to this object.
+     * @return a boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,6 +67,11 @@ public class Move {
 
     }
 
+    /**
+     * Returns a hash code value for the object. This method is supported for the benefit of hash tables such as those provided by {@link java.util.HashMap}.
+     *
+     * @return an integer
+     */
     @Override
     public int hashCode() {
         int result = type != null ? type.hashCode() : 0;

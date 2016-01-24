@@ -54,6 +54,13 @@ public class Heuristic implements Function<GameState, Double> {
         return maxScore - minScore;
     }
 
+    /**
+     * Calculates the score for the specified {@link Player} on the specified {@link GameState}.
+     *
+     * @param gameState The current game state.
+     * @param player    The player to get the score for.
+     * @return a double
+     */
     private double calculateScoreForPlayer(GameState gameState, Player player) {
         Map<Integer, Set<BoardFeature>> featuresMap = GameStateEvaluator.getInstance().getFeatures(gameState, player);
 
