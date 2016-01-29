@@ -1,3 +1,7 @@
+Authors:
+Daniel Beckwith
+Aditya Nivarthi
+
 To run this Connect-N player, execute the following command with the player's JAR file in the current directory:
 
 java -jar anivarthi-djbeckwith-connectn.jar quad

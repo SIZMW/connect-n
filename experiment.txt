@@ -1,0 +1,11 @@
+Authors:
+Daniel Beckwith
+Aditya Nivarthi
+
+We experimented with different evaluation functions. We tried functions with constant values, scoring different features of the board at the same value. Feature means having consecutive pieces in a diagonal, horizontal or vertical position on the board, and how many pieces were in the consecutive set.
+
+We started with a constant function. For example, having 1 piece would add 1 point. 2 consecutive pieces meant 1 point, plus 1 point for each piece within that 2 consecutive pieces. 3 consecutive pieces would be 1 (3 set) + 1 (2 set) + 1 (2 set) + 1 (1 set) + 1 (1 set) + 1 (1 set) = 6 points. The main issue we found here was that the evaluation would not put states with more consecutive pieces sufficiently higher than just 1 or 2 consecutive pieces.
+
+Next, we tried exponential functions. We tried l ^ 2, meaning the length of the feature on the board squared. This got better results, but we wanted a significant difference between having X in a row vs. X + 1 in a row, since X + 1 is closer to having a consecutive set of N.
+
+We ended up using l ^ 4. This would mean that a consecutive set of 1 would rank at 1 ^ 4 = 1. A set of 2 consecutive pieces would be 2 ^ 4 = 16. We found this to work much better since having a set of 2 is much better than having sets of 1 scattered around the board. The way the sets of 1 were determined was if they were within a row of N pieces. So we would check how many ways to have N consecutive pieces, and how close each potential win was to being a win. Having just 1 in a bunch of sets doesn't help as much as having 2 in even 1 set.
